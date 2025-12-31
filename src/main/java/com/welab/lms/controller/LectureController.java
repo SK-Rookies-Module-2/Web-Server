@@ -99,11 +99,32 @@ public class LectureController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        // 3. [스터디 그룹] 데이터 가져오기
+        List<Map<String, Object>> studyList = new ArrayList<>();
+        String sqlStudy = "SELECT * FROM study_groups ORDER BY no DESC";
 
-        // [수정됨] 중복된 try-catch 블록을 제거했습니다.
+        try (Connection conn = dataSource.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sqlStudy);
+                ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("no", rs.getInt("no"));
+                map.put("status", rs.getString("status"));
+                map.put("title", rs.getString("title"));
+                map.put("writer", rs.getString("writer"));
+                map.put("reg_date", rs.getString("reg_date"));
+                map.put("capacity", rs.getInt("capacity"));
+                studyList.add(map);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        model.addAttribute("studyList", studyList);
 
         model.addAttribute("noticeList", noticeList);
 
         return "lecture_view";
+
     }
 }

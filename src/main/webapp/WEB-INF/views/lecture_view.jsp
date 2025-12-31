@@ -52,19 +52,29 @@
 
         <body>
             <nav class="navbar-welab">
-                <div class="d-flex align-items-center">
-                    <img src="/static/images/Logo.png" alt="SK Rookies x WELAB"
-                        style="height: 50px; margin-right: 20px;">
-                </div>
-                <div class="d-flex align-items-center">
-                    <div class="user-badge"><i class="fas fa-check-circle"></i> 루키즈 AI 보안 28기</div>
-                    <span class="text-white me-4" style="font-size:0.95rem;"><strong>
-                            <%= session.getAttribute("user_name") %>
-                        </strong>님 환영합니다.</span>
-                    <a href="/dashboard" class="btn-nav me-2"><i class="fas fa-home"></i> 홈</a>
-                    <a href="/myinfo?id=<%= session.getAttribute(" user_id") %>" class="btn-nav me-2"><i
-                            class="fas fa-user"></i> 내 정보</a>
-                    <a href="/logout" class="btn-nav"><i class="fas fa-sign-out-alt"></i> 로그아웃</a>
+                <div class="container d-flex justify-content-between align-items-center">
+
+                    <div class="d-flex align-items-center">
+                        <a href="/dashboard">
+                            <img src="/static/images/Logo.png" alt="SK Rookies x WELAB"
+                                style="height: 50px; margin-right: 20px;">
+                        </a>
+                    </div>
+
+                    <div class="d-flex align-items-center">
+                        <div class="user-badge">
+                            <i class="fas fa-check-circle"></i> 루키즈 AI 보안 28기
+                        </div>
+                        <span class="text-white me-4" style="font-size:0.95rem;"><strong>
+                                <%= session.getAttribute("user_name") %>
+                            </strong>님 환영합니다.</span>
+
+                        <a href="/dashboard" class="btn-nav me-2"><i class="fas fa-home"></i> 홈</a>
+                        <a href="/myinfo?id=<%= session.getAttribute("user_id") %>" class="btn-nav me-2"><i
+                                class="fas fa-user"></i> 내 정보</a>
+                        <a href="/logout" class="btn-nav"><i class="fas fa-sign-out-alt"></i> 로그아웃</a>
+                    </div>
+
                 </div>
             </nav>
 

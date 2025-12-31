@@ -1,135 +1,301 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-    <!DOCTYPE html>
-    <html>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+        <!DOCTYPE html>
+        <html lang="ko">
 
-    <head>
-        <title>내 정보 | We Lab Space</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-        <link href="/static/css/welab.css" rel="stylesheet">
-    </head>
+        <head>
+            <meta charset="UTF-8">
+            <title>내 정보 | We Lab Space</title>
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+            <link href="/static/css/welab.css" rel="stylesheet">
+            <style>
+                /* 1. 배경 및 기본 폰트 설정 */
+                body {
+                    background-color: #f4f7f9;
+                    font-family: 'Noto Sans KR', sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    min-height: 100vh;
+                }
 
-    <body>
-        <nav class="navbar-welab">
-            <div class="d-flex align-items-center">
-                <img src="/static/images/Logo.png" alt="SK Rookies x WELAB" style="height: 50px; margin-right: 20px;">
-            </div>
-            <div class="d-flex align-items-center">
-                <div class="user-badge">
-                    <i class="fas fa-check-circle"></i> 루키즈 AI 보안 28기
+                /* 2. 메인 레이아웃 - 네비게이션이 없으므로 상단 여백을 충분히 확보 */
+                .main-wrapper {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    padding-top: 80px;
+                    padding-bottom: 100px;
+                }
+
+                .nav-tabs-custom {
+                    border: none;
+                    gap: 4px;
+                    margin-bottom: -1px;
+                    z-index: 2;
+                }
+
+                .nav-tabs-custom .nav-link {
+                    background-color: #e2e8f0;
+                    color: #4a5568;
+                    border: none;
+                    border-radius: 12px 12px 0 0;
+                    padding: 12px 30px;
+                    font-size: 0.95rem;
+                    font-weight: 500;
+                }
+
+                .nav-tabs-custom .nav-link.active {
+                    background-color: #ffffff;
+                    color: #004a99;
+                    font-weight: bold;
+                    border-top: 4px solid #004a99;
+                }
+
+                /* 3. 정보 카드 박스 */
+                .info-card {
+                    background-color: #ffffff;
+                    width: 800px;
+                    max-width: 95%;
+                    border-radius: 20px;
+                    padding: 50px 70px;
+                    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+                    text-align: center;
+                }
+
+                /* 4. 타이틀 장식 */
+                .page-title {
+                    color: #004a99;
+                    font-size: 1.8rem;
+                    font-weight: bold;
+                    margin-bottom: 5px;
+                }
+
+                .pink-dot {
+                    width: 6px;
+                    height: 6px;
+                    background-color: #ff99cc;
+                    border-radius: 50%;
+                    margin: 5px auto 40px;
+                }
+
+                /* 5. 포인트 섹션 */
+                .point-container {
+                    background-color: #f8fafc;
+                    border: 1px solid #edf2f7;
+                    border-radius: 12px;
+                    padding: 20px 25px;
+                    margin-bottom: 40px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+
+                .point-label {
+                    font-weight: bold;
+                    font-size: 1.05rem;
+                    color: #333;
+                }
+
+                .point-value {
+                    font-size: 1.3rem;
+                    margin-left: 10px;
+                    color: #000;
+                }
+
+                /* 6. 입력 폼 스타일 */
+                .form-group-custom {
+                    text-align: left;
+                    margin-bottom: 25px;
+                }
+
+                .form-label-small {
+                    font-size: 0.85rem;
+                    color: #718096;
+                    margin-bottom: 4px;
+                }
+
+                .input-underline {
+                    border: none;
+                    border-bottom: 1px solid #e2e8f0;
+                    border-radius: 0;
+                    padding: 10px 0;
+                    width: 100%;
+                    font-size: 1.1rem;
+                    background: transparent;
+                }
+
+                .input-underline:focus {
+                    outline: none;
+                    border-bottom: 2px solid #004a99;
+                }
+
+                /* 7. 버튼 스타일 */
+                .btn-group-bottom {
+                    display: flex;
+                    justify-content: center;
+                    gap: 15px;
+                    margin-top: 45px;
+                }
+
+                .btn-custom {
+                    padding: 12px 40px;
+                    border-radius: 8px;
+                    font-weight: bold;
+                    font-size: 1rem;
+                }
+
+                .btn-white {
+                    border: 1px solid #cbd5e0;
+                    color: #4a5568;
+                    background: #fff;
+                }
+
+                .btn-blue {
+                    background-color: #2b6cb0;
+                    color: #fff;
+                    border: none;
+                }
+
+                .btn-pw-change {
+                    background-color: #4a5568;
+                    color: #fff;
+                    border: none;
+                }
+
+                /* 8. 푸터 */
+                .footer-area {
+                    background-color: #004a99;
+                    color: #fff;
+                    text-align: center;
+                    padding: 40px 0;
+                    width: 100%;
+                }
+            </style>
+        </head>
+
+        <body>
+            <nav class="navbar-welab">
+                <div class="container d-flex justify-content-between align-items-center">
+
+                    <div class="d-flex align-items-center">
+                        <a href="/dashboard">
+                            <img src="/static/images/Logo.png" alt="SK Rookies x WELAB"
+                                style="height: 50px; margin-right: 20px;">
+                        </a>
+                    </div>
+
+                    <div class="d-flex align-items-center">
+                        <div class="user-badge">
+                            <i class="fas fa-check-circle"></i> 루키즈 AI 보안 28기
+                        </div>
+                        <span class="text-white me-4" style="font-size:0.95rem;"><strong>
+                                <%= session.getAttribute("user_name") %>
+                            </strong>님 환영합니다.</span>
+
+                        <a href="/dashboard" class="btn-nav me-2"><i class="fas fa-home"></i> 홈</a>
+                        <a href="/myinfo?id=<%= session.getAttribute("user_id") %>" class="btn-nav me-2"><i
+                                class="fas fa-user"></i> 내 정보</a>
+                        <a href="/logout" class="btn-nav"><i class="fas fa-sign-out-alt"></i> 로그아웃</a>
+                    </div>
+
                 </div>
-                <span class="text-white me-4" style="font-size:0.95rem;"><strong>
-                        <%= session.getAttribute("user_name") %>
-                    </strong>님 환영합니다.</span>
+            </nav>
+            <div class="main-wrapper">
+                <ul class="nav nav-tabs nav-tabs-custom" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab1" type="button">회원정보
+                            수정</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab2" type="button">학습 계정
+                            정보</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab3" type="button">출석
+                            정보</button>
+                    </li>
+                </ul>
 
-                <a href="/dashboard" class="btn-nav me-2"><i class="fas fa-home"></i> 홈</a>
-                <a href="/myinfo?id=<%= session.getAttribute(" user_id") %>" class="btn-nav me-2"><i
-                        class="fas fa-user"></i> 내 정보</a>
-                <a href="/logout" class="btn-nav"><i class="fas fa-sign-out-alt"></i> 로그아웃</a>
-            </div>
-        </nav>
+                <div class="info-card">
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab1">
+                            <div class="page-title">회원정보</div>
+                            <div class="pink-dot"></div>
 
-        <div class="tab-container">
-            <ul class="nav nav-pills" id="pills-tab" role="tablist">
-                <li class="nav-item"><button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
-                        data-bs-target="#pills-home">회원정보 수정</button></li>
-                <li class="nav-item"><button class="nav-link" id="pills-aws-tab" data-bs-toggle="pill"
-                        data-bs-target="#pills-aws">학습 계정 정보</button></li>
-                <li class="nav-item"><button class="nav-link" id="pills-att-tab" data-bs-toggle="pill"
-                        data-bs-target="#pills-att">출석 정보</button></li>
-            </ul>
-        </div>
+                            <div class="point-container">
+                                <div class="point-label">보유 포인트 <span class="point-value">${point}</span></div>
+                                <button class="btn btn-sm btn-outline-secondary rounded-pill px-3"><i
+                                        class="fas fa-search"></i> 누적현황 보기</button>
+                            </div>
 
-        <div class="info-card">
-            <div class="tab-content" id="pills-tabContent">
-                <div class="tab-pane fade show active" id="pills-home">
-                    <div class="page-title">회원정보</div>
-                    <div class="point-box"><span>보유 포인트 <span class="fs-5 ms-2">${point}</span></span><button
-                            class="btn btn-sm btn-outline-secondary rounded-pill px-3">누적현황 보기</button></div>
-                    <div class="form-section-title">정보수정</div>
-                    <div class="mb-4"><label class="form-label">아이디</label><input type="text" readonly
-                            class="form-control-plaintext border-bottom" value="${userId}"></div>
-                    <div class="mb-4"><label class="form-label">닉네임</label><input type="text" class="form-control"
-                            value="${userName}"></div>
-                    <div class="mb-4"><label class="form-label">이메일</label><input type="text"
-                            class="form-control bg-light" value="${userEmail}" readonly></div>
-                    <div class="mb-4"><label class="form-label">휴대전화</label><input type="text"
-                            class="form-control-plaintext border-bottom fs-4" value="${userPhone}"></div>
-                    <div class="btn-group-custom"><button class="btn btn-outline">취소</button><button
-                            class="btn btn-blue">변경</button></div>
-                </div>
+                            <h5 class="text-start fw-bold mb-4" style="color:#004a99;">정보수정</h5>
 
-                <div class="tab-pane fade" id="pills-aws">
-                    <div class="page-title">학습 계정 정보</div>
-                    <div class="mb-5 mt-5 px-5">
-                        <div class="mb-4"><label class="form-label small">AWS 계정</label>
-                            <div class="fs-5 text-secondary">${awsAccount}</div>
-                            <hr class="mt-1 text-muted">
+                            <div class="form-group-custom">
+                                <p class="form-label-small">아이디</p>
+                                <input type="text" class="input-underline" value="${userId}" readonly>
+                            </div>
+                            <div class="form-group-custom">
+                                <p class="form-label-small">닉네임</p>
+                                <input type="text" class="input-underline" value="${userName}"
+                                    placeholder="닉네임을 입력해 주세요.">
+                            </div>
+                            <div class="form-group-custom">
+                                <p class="form-label-small">이메일</p>
+                                <input type="text" class="input-underline" value="${userEmail}"
+                                    style="background-color: #f1f5f9;" readonly>
+                            </div>
+                            <div class="form-group-custom">
+                                <p class="form-label-small">휴대전화</p>
+                                <input type="text" class="input-underline" value="${userPhone}">
+                            </div>
+
+                            <div class="btn-group-bottom">
+                                <button class="btn-custom btn-white" onclick="location.href='/dashboard'">취소</button>
+                                <button class="btn-custom btn-blue">변경</button>
+                                <button class="btn-custom btn-pw-change">비밀번호 변경</button>
+                            </div>
                         </div>
-                        <div class="mb-4"><label class="form-label small">IAM user</label>
-                            <div class="fs-5 text-secondary">${iamUser}</div>
-                            <hr class="mt-1 text-muted">
+
+                        <div class="tab-pane fade" id="tab2">
+                            <div class="page-title">학습 계정 정보</div>
+                            <div class="pink-dot"></div>
+                            <div class="mt-5" style="padding: 0 40px;">
+                                <div class="form-group-custom">
+                                    <p class="form-label-small">AWS 계정</p><input type="text" class="input-underline"
+                                        value="${awsAccount}" readonly>
+                                </div>
+                                <div class="form-group-custom">
+                                    <p class="form-label-small">IAM user</p><input type="text" class="input-underline"
+                                        value="${iamUser}" readonly>
+                                </div>
+                                <div class="form-group-custom">
+                                    <p class="form-label-small">AWS 초기 패스워드</p><input type="text"
+                                        class="input-underline" value="${awsPw}" readonly>
+                                </div>
+                                <div class="form-group-custom">
+                                    <p class="form-label-small">리전</p><input type="text" class="input-underline"
+                                        value="${region}" readonly>
+                                </div>
+                            </div>
                         </div>
-                        <div class="mb-4"><label class="form-label small">AWS 초기 패스워드</label>
-                            <div class="fs-5 text-secondary">${awsPass}</div>
-                            <hr class="mt-1 text-muted">
-                        </div>
-                        <div class="mb-4"><label class="form-label small">리전</label>
-                            <div class="fs-5 text-secondary">${region}</div>
-                            <hr class="mt-1 text-muted">
+
+                        <div class="tab-pane fade" id="tab3">
+                            <div class="page-title">출석 정보</div>
+                            <div class="pink-dot"></div>
+                            <div class="py-5 text-muted">이수율: ${attendRate}%</div>
                         </div>
                     </div>
                 </div>
-
-                <div class="tab-pane fade" id="pills-att">
-                    <div class="page-title">출석 정보</div>
-                    <div class="d-flex justify-content-between small mb-1 fw-bold"><span>이수율
-                            ${attendRate}%</span><span>2025-12-23 ~ 2026-01-22</span></div>
-                    <div class="progress" style="height: 10px;">
-                        <div class="progress-bar bg-warning" style="width: ${attendRate}%"></div>
-                    </div>
-                    <table class="table table-bordered text-center small mt-4">
-                        <thead class="bg-light">
-                            <tr>
-                                <th class="text-danger">일</th>
-                                <th>월</th>
-                                <th>화</th>
-                                <th>수</th>
-                                <th>목</th>
-                                <th>금</th>
-                                <th class="text-primary">토</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="text-danger">30</td>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>4</td>
-                                <td>5</td>
-                                <td class="text-primary">6</td>
-                            </tr>
-                            <tr>
-                                <td class="text-danger">7</td>
-                                <td class="bg-primary bg-opacity-10 text-primary fw-bold">출석</td>
-                                <td class="bg-primary bg-opacity-10 text-primary fw-bold">출석</td>
-                                <td class="bg-primary bg-opacity-10 text-primary fw-bold">출석</td>
-                                <td class="bg-primary bg-opacity-10 text-primary fw-bold">출석</td>
-                                <td class="bg-warning bg-opacity-25 fw-bold">-</td>
-                                <td class="text-primary">13</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
             </div>
-        </div>
 
-        <div class="text-center pb-4">
-            <h4 style="color:#004d9d; font-weight:bold;">LMS <span style="font-weight:300">WE LAB SPACE</span></h4>
-            <small class="text-muted">COPYRIGHT © 2025 WELABSPACE. ALL RIGHTS RESERVED.</small>
-        </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    </body>
+            <footer class="footer-area">
+                <img src="/static/images/lms_logo_small.png" alt="LMS"
+                    style="height: 30px; margin-bottom: 10px; opacity: 0.8;">
+                <p class="mb-0 small" style="opacity: 0.7;">COPYRIGHT © 2025 WELABSPACE. ALL RIGHTS RESERVED.</p>
+            </footer>
 
-    </html>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        </body>
+
+        </html>
