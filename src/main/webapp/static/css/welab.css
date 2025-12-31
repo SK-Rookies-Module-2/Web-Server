@@ -1,0 +1,259 @@
+@charset "UTF-8";
+
+/* [기본 설정 & 네비게이션 흔들림 방지] */
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+    margin: 0;
+    overflow-y: scroll;
+}
+
+/* [네비게이션 바] */
+.navbar-welab {
+    background-color: #004d9d;
+    color: white;
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    min-width: 1200px;
+}
+
+.btn-nav {
+    background-color: #fff;
+    color: #004d9d;
+    font-weight: bold;
+    border: 1px solid #fff;
+    padding: 8px 18px;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+}
+
+.btn-nav:hover {
+    background-color: #e6f0fa;
+    color: #003366;
+}
+
+.user-badge {
+    background-color: white;
+    color: #004d9d;
+    font-size: 0.8rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-right: 10px;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* [강의실 배너 영역] */
+.course-banner {
+    background: white;
+    padding: 40px 0;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 0;
+}
+
+.course-tag {
+    background-color: #fff;
+    color: #666;
+    border: 1px solid #ddd;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    margin-right: 6px;
+}
+
+.btn-orange {
+    background-color: #ed8b00;
+    color: white;
+    border: none;
+    font-weight: bold;
+    padding: 10px 20px;
+}
+
+.btn-orange:hover {
+    background-color: #d67d00;
+    color: white;
+}
+
+.btn-outline-primary {
+    border-color: #004d9d;
+    color: #004d9d;
+    font-weight: bold;
+    padding: 10px 20px;
+}
+
+/* [탭 메뉴] */
+.lecture-nav-container {
+    background-color: white;
+    border-bottom: 1px solid #ddd;
+    padding-left: 0;
+}
+
+.lecture-tabs {
+    border-bottom: none;
+    justify-content: flex-start;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.lecture-tabs .nav-link {
+    color: #666;
+    font-weight: 500;
+    border: none;
+    border-bottom: 3px solid transparent;
+    padding: 15px 25px;
+    border-radius: 0;
+    background: transparent;
+}
+
+.lecture-tabs .nav-link.active {
+    color: #004d9d;
+    font-weight: bold;
+    border-bottom: 3px solid #004d9d;
+    background: transparent;
+}
+
+/* [공통 테이블 디자인 (교육일정, 공지, 과제 등)] */
+.table-welab {
+    width: 100%;
+    border-top: 2px solid #333;
+    margin-top: 20px;
+    background: white;
+}
+
+.table-welab th {
+    background-color: #f8f9fa;
+    color: #333;
+    font-weight: bold;
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    font-size: 0.9rem;
+}
+
+.table-welab td {
+    padding: 20px 15px;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.btn-detail {
+    background-color: #004d9d;
+    color: white;
+    border-radius: 50px;
+    padding: 5px 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    border: none;
+}
+
+.btn-detail:hover {
+    background-color: #003366;
+    color: white;
+}
+
+/* [하단 대형 버튼] */
+.bottom-action-bar {
+    text-align: center;
+    margin-top: 50px;
+    padding-bottom: 50px;
+}
+
+.btn-big-orange {
+    background-color: #ed8b00;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: bold;
+    padding: 15px 60px;
+    border-radius: 8px;
+    border: none;
+    box-shadow: 0 4px 10px rgba(237, 139, 0, 0.3);
+}
+
+.btn-big-orange:hover {
+    background-color: #d67d00;
+    color: white;
+}
+
+/* [기타 공통 유틸리티] */
+.container-custom {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.info-card {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 800px;
+    margin: 0 auto 50px auto;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.login-body {
+    background-color: #004d9d;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-card {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    width: 400px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.btn-login {
+    background-color: #004d9d;
+    color: white;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.tab-container {
+    background-color: #fff;
+    padding: 15px 0;
+    text-align: center;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #eee;
+}
+
+.nav-pills {
+    display: inline-flex;
+}
+
+.nav-pills .nav-link {
+    color: #555;
+    font-weight: bold;
+    padding: 10px 30px;
+    margin: 0 5px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+}
+
+.nav-pills .nav-link.active {
+    background-color: #f1f3f5;
+    color: #004d9d;
+}
