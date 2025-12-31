@@ -12,8 +12,7 @@
     <body>
         <nav class="navbar-welab">
             <div class="d-flex align-items-center">
-                <img src="https://placehold.co/180x45/004d9d/ffffff?text=SK+Rookies+x+WELAB" alt="Logo"
-                    style="height: 40px; margin-right: 20px;">
+                <img src="/static/images/Logo.png" alt="SK Rookies x WELAB" style="height: 50px; margin-right: 20px;">
             </div>
             <div class="d-flex align-items-center">
                 <div class="user-badge">
