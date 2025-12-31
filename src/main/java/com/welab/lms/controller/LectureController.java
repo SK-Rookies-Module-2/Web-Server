@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,22 +23,21 @@ public class LectureController {
     private DataSource dataSource;
 
     @GetMapping("/lecture_view")
-    public String lectureView(@RequestParam(defaultValue = "roadmap") String tab, Model model) {
-        // 1. 기본 정보
+    public String lectureView(
+            @RequestParam(defaultValue = "roadmap") String tab,
+            Model model,
+            HttpSession session // [수정됨] 여기에 session을 받아야 아래에서 쓸 수 있습니다.
+    ) {
         model.addAttribute("courseTitle", "생성형 AI 활용 사이버보안 전문인력 양성과정 28기");
         model.addAttribute("progress", "39");
-
-        // 2. 현재 선택된 탭 정보 전달
         model.addAttribute("currentTab", tab);
 
-        // 3. [과정평가] DB 데이터 가져오기 (DB 연결 누수 방지 코드 적용)
+        // 1. [과정평가] 데이터 가져오기
         List<Map<String, Object>> evalList = new ArrayList<>();
+        String sqlEval = "SELECT * FROM evaluations ORDER BY no ASC";
 
-        String sql = "SELECT * FROM evaluations ORDER BY no ASC";
-
-        // [핵심] try (...) 안에 선언하면 실행 후 자동으로 conn.close()가 호출됩니다.
         try (Connection conn = dataSource.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sql);
+                PreparedStatement pstmt = conn.prepareStatement(sqlEval);
                 ResultSet rs = pstmt.executeQuery()) {
 
             while (rs.next()) {
@@ -60,8 +60,49 @@ public class LectureController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         model.addAttribute("evalList", evalList);
+
+        // 2. [공지사항] 데이터 가져오기
+        List<Map<String, Object>> noticeList = new ArrayList<>();
+
+        // 기본 쿼리
+        String sqlNotice = "SELECT * FROM notices ";
+
+        // [로직] 관리자가 아니면, '숨겨지지 않은 글(is_visible=1)'만 가져오도록 조건 추가
+        String userId = (String) session.getAttribute("user_id");
+        if (userId == null || !userId.equals("admin")) {
+            sqlNotice += "WHERE is_visible = TRUE ";
+        }
+
+        // 정렬 조건 추가
+        sqlNotice += "ORDER BY is_important DESC, reg_date DESC";
+
+        try (Connection conn = dataSource.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sqlNotice);
+                ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("no", rs.getInt("no"));
+                map.put("category", rs.getString("category"));
+                map.put("title", rs.getString("title"));
+                map.put("writer", rs.getString("writer"));
+                map.put("reg_date", rs.getString("reg_date"));
+                map.put("views", rs.getInt("views"));
+                map.put("is_important", rs.getBoolean("is_important"));
+
+                // [중요] 뷰(JSP)에서 숨김 상태인지 알 수 있게 전달
+                map.put("is_visible", rs.getBoolean("is_visible"));
+
+                noticeList.add(map);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // [수정됨] 중복된 try-catch 블록을 제거했습니다.
+
+        model.addAttribute("noticeList", noticeList);
 
         return "lecture_view";
     }
