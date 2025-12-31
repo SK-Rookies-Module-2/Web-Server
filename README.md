@@ -29,15 +29,15 @@
 ## 빠른 실행
 ## 1. 데이터베이스 설정
 ### src/main/resources/application.properties 파일을 열어 DB 정보를 수정합니다. (현재는 리눅스 mariaDB IP로 설정)
-spring.datasource.url=jdbc:mariadb://localhost:3306/lms_db
-spring.datasource.username=lms_user
-spring.datasource.password=secret
+- spring.datasource.url=jdbc:mariadb://localhost:3306/lms_db
+- spring.datasource.username=lms_user
+- spring.datasource.password=secret
 
 ## 2. 의존성 설치 및 실행
 ### Maven을 사용하여 프로젝트를 빌드하고 Spring Boot 서버를 구동합니다.
-mvn clean install
-mvn spring-boot:run
+- mvn clean install
+- mvn spring-boot:run
 
 ## 3. 접속 확인
 ### 서버가 시작되면 브라우저에서 아래 주소로 접속합니다.
-### http://localhost:8080
+- http://localhost:8080
