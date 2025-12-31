@@ -31,7 +31,6 @@
                 width: 100%;
                 max-width: 460px;
                 position: relative;
-                /* [수정됨] 닫기 버튼 공간 확보를 위해 하단 여백을 대폭 늘림 (50px -> 130px) */
                 margin-bottom: 130px;
             }
 
@@ -94,11 +93,6 @@
                 transition: all 0.2s;
             }
 
-            .custom-input::placeholder {
-                color: #adb5bd;
-                font-size: 0.9rem;
-            }
-
             .custom-input:focus {
                 background-color: #ffffff;
                 border-color: #004a99;
@@ -137,18 +131,37 @@
                 background-color: #003377;
             }
 
-            /* 7. 하단 안내 및 닫기 버튼 */
-            .help-text {
-                font-size: 0.8rem;
-                color: #004a99;
-                margin-top: 20px;
-                line-height: 1.5;
-                text-align: center;
+            /* [추가됨] 7. 하단 링크 그룹 (회원가입/찾기) */
+            .auth-links {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-top: 25px;
+                font-size: 0.85rem;
+                color: #6c757d;
             }
 
+            .auth-links a {
+                color: #004a99;
+                text-decoration: none;
+                font-weight: 500;
+                transition: color 0.2s;
+            }
+
+            .auth-links a:hover {
+                color: #ff99cc;
+                text-decoration: underline;
+            }
+
+            .auth-divider {
+                margin: 0 12px;
+                color: #dee2e6;
+                font-weight: 300;
+            }
+
+            /* 8. 닫기 버튼 */
             .close-btn-container {
                 position: absolute;
-                /* 카드 바로 아래에 위치 */
                 bottom: -80px;
                 left: 0;
                 width: 100%;
@@ -167,17 +180,11 @@
                 font-size: 1.2rem;
                 border: none;
                 box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-                transition: transform 0.2s;
                 cursor: pointer;
             }
 
-            .btn-close-pink:hover {
-                transform: scale(1.1);
-            }
-
-            /* 8. 푸터 */
+            /* 9. 푸터 */
             .footer {
-                /* 상단 여백 제거 (wrapper의 마진이 밀어줌) */
                 margin-top: 0;
                 text-align: center;
                 color: rgba(255, 255, 255, 0.6);
@@ -189,28 +196,6 @@
                 height: 18px;
                 margin-top: 8px;
                 opacity: 0.8;
-            }
-
-            @media (max-width: 576px) {
-                .header-area {
-                    margin-bottom: -10px;
-                }
-
-                .character-img {
-                    height: 110px;
-                }
-
-                .top-logo {
-                    height: 30px;
-                }
-
-                .login-card {
-                    padding: 40px 25px 30px;
-                }
-
-                .login-title {
-                    font-size: 1.5rem;
-                }
             }
         </style>
     </head>
@@ -247,10 +232,13 @@
                     <button type="submit" class="btn-login">로그인</button>
                 </form>
 
-                <p class="help-text">
-                    암호를 잃어 버리셨거나 아이디를 가지고 있지 않으시면<br>
-                    운영팀에게 문의해주세요.
-                </p>
+                <div class="auth-links">
+                    <a href="/register">회원가입</a>
+                    <span class="auth-divider">|</span>
+                    <a href="/find-id">아이디 찾기</a>
+                    <span class="auth-divider">|</span>
+                    <a href="/find-pw">비밀번호 찾기</a>
+                </div>
 
                 <div class="close-btn-container">
                     <button class="btn-close-pink" onclick="history.back()">

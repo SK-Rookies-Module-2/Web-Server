@@ -1,5 +1,6 @@
 package com.welab.lms.controller;
 
+import com.welab.lms.util.JwtUtil; // Step 2에서 만들 클래스 임포트
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,29 +33,34 @@ public class LoginController {
             Connection conn = dataSource.getConnection();
             Statement stmt = conn.createStatement();
 
-            // [취약점 유지] 컬럼명을 'user_id'가 아닌 'id'로 수정하여 에러 해결
+            // [취약점 유지] SQL Injection 실습용 쿼리
             String sql = "SELECT * FROM users WHERE id = '" + id + "' AND password = '" + pw + "'";
             System.out.println("[DEBUG] Query: " + sql);
 
             ResultSet rs = stmt.executeQuery(sql);
 
             if (rs.next()) {
-                // 세션에 정보 저장 (컬럼명 'id', 'name' 사용)
+                // 1. 세션 방식 (서버 세션 저장)
                 session.setAttribute("user_id", rs.getString("id"));
                 session.setAttribute("user_name", rs.getString("name"));
                 session.setAttribute("user_role", rs.getString("role"));
 
-                // 학습 계정 정보가 없으면 랜덤 생성 후 DB 업데이트
-                if (rs.getString("aws_account") == null || rs.getString("aws_account").isEmpty()) {
-                    String randomAccount = generateAwsAccount();
-                    String randomAwsPw = "Welabs!" + generateRandomString(5);
-                    String randomRegion = getRandomRegion();
-                    String iamUser = rs.getString("id"); // 접속 ID와 동일하게 설정
+                // 2. JWT 방식 추가 (토큰 생성)
+                // rs.getString("role")이 없다면 "USER"로 기본값 설정
+                String role = rs.getString("role") != null ? rs.getString("role") : "USER";
+                String token = JwtUtil.createToken(rs.getString("id"), role);
 
-                    updateUserLearningInfo(rs.getString("id"), randomAccount, iamUser, randomAwsPw, randomRegion);
+                // 생성된 토큰을 모델에 담아 전송
+                model.addAttribute("jwtToken", token);
+
+                // 학습 계정 정보 랜덤 생성 로직 (기존 유지)
+                if (rs.getString("aws_account") == null || rs.getString("aws_account").isEmpty()) {
+                    updateUserLearningInfo(rs.getString("id"), generateAwsAccount(), rs.getString("id"),
+                            "Welabs!" + generateRandomString(5), getRandomRegion());
                 }
 
-                return "redirect:/dashboard";
+                // [중요] redirect 대신 login_success 페이지로 가서 토큰을 로컬스토리지에 저장함
+                return "login_success";
             } else {
                 return "login";
             }
@@ -64,7 +70,87 @@ public class LoginController {
         }
     }
 
-    // --- 랜덤 데이터 생성 유틸리티 ---
+    // --- 회원가입, 아이디/비번 찾기 매핑 (기존 유지) ---
+    @GetMapping("/register")
+    public String registerPage() {
+        return "register";
+    }
+
+    @GetMapping("/find-id")
+    public String findIdPage() {
+        return "find_account";
+    }
+
+    @GetMapping("/find-pw")
+    public String findPwPage() {
+        return "find_account";
+    }
+
+    @PostMapping("/registerAction")
+    public String registerAction(@RequestParam String id, @RequestParam String pw, @RequestParam String name,
+            @RequestParam String email, @RequestParam String phone) {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "INSERT INTO users (id, password, name, email, phone, role, aws_account, iam_user, aws_pw, region) VALUES (?, ?, ?, ?, ?, 'USER', ?, ?, ?, ?)";
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, id);
+                pstmt.setString(2, pw);
+                pstmt.setString(3, name);
+                pstmt.setString(4, email);
+                pstmt.setString(5, phone);
+                pstmt.setString(6, generateAwsAccount());
+                pstmt.setString(7, id);
+                pstmt.setString(8, "Welabs!" + generateRandomString(5));
+                pstmt.setString(9, getRandomRegion());
+                pstmt.executeUpdate();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "redirect:/";
+    }
+
+    @PostMapping("/findIdAction")
+    public String findIdAction(@RequestParam String name, @RequestParam String email, Model model) {
+        try (Connection conn = dataSource.getConnection(); Statement stmt = conn.createStatement()) {
+            String sql = "SELECT id FROM users WHERE name = '" + name + "' AND email = '" + email + "'";
+            ResultSet rs = stmt.executeQuery(sql);
+            if (rs.next())
+                model.addAttribute("msg", "찾으시는 아이디는 [" + rs.getString("id") + "] 입니다.");
+            else
+                model.addAttribute("msg", "일치하는 정보가 없습니다.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "find_account";
+    }
+
+    @PostMapping("/findPwAction")
+    public String findPwAction(@RequestParam String id, @RequestParam String email, Model model) {
+        String tempPw = "1q2w3e4r!@#";
+        try (Connection conn = dataSource.getConnection()) {
+            String checkSql = "SELECT count(*) FROM users WHERE id = ? AND email = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(checkSql)) {
+                pstmt.setString(1, id);
+                pstmt.setString(2, email);
+                ResultSet rs = pstmt.executeQuery();
+                if (rs.next() && rs.getInt(1) > 0) {
+                    String updateSql = "UPDATE users SET password = ? WHERE id = ?";
+                    try (PreparedStatement upstmt = conn.prepareStatement(updateSql)) {
+                        upstmt.setString(1, tempPw);
+                        upstmt.setString(2, id);
+                        upstmt.executeUpdate();
+                        model.addAttribute("msg", "비밀번호가 임시 비밀번호 [" + tempPw + "] 로 초기화되었습니다.");
+                    }
+                } else
+                    model.addAttribute("msg", "일치하는 정보가 없습니다.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "find_account";
+    }
+
+    // --- 유틸리티 메서드들 ---
     private String generateAwsAccount() {
         Random rnd = new Random();
         StringBuilder sb = new StringBuilder();
@@ -87,11 +173,9 @@ public class LoginController {
         return regions[new Random().nextInt(regions.length)];
     }
 
-    // --- DB 업데이트 메서드 (컬럼명 'id' 기준) ---
     private void updateUserLearningInfo(String userId, String acc, String iam, String pw, String region) {
         String sql = "UPDATE users SET aws_account=?, iam_user=?, aws_pw=?, region=? WHERE id=?";
-        try (Connection conn = dataSource.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (Connection conn = dataSource.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, acc);
             pstmt.setString(2, iam);
             pstmt.setString(3, pw);

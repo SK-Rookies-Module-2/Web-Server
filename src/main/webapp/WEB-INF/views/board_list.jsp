@@ -32,7 +32,16 @@
                         <a href="/dashboard" class="btn-nav me-2"><i class="fas fa-home"></i> 홈</a>
                         <a href="/myinfo?id=<%= session.getAttribute("user_id") %>" class="btn-nav me-2"><i
                                 class="fas fa-user"></i> 내 정보</a>
-                        <a href="/logout" class="btn-nav"><i class="fas fa-sign-out-alt"></i> 로그아웃</a>
+                        <a href="javascript:void(0);" class="btn-nav" onclick="handleLogout()"><i
+                                class="fas fa-sign-out-alt"></i> 로그아웃</a>
+
+                        <script>
+                            function handleLogout() {
+                                localStorage.removeItem("accessToken");
+                                alert("로그아웃 되었습니다.");
+                                location.href = "/logout";
+                            }
+                        </script>
                     </div>
 
                 </div>
