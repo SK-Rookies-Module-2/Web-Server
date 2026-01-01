@@ -33,41 +33,7 @@
     </head>
 
     <body>
-        <nav class="navbar-welab">
-            <div class="container d-flex justify-content-between align-items-center">
-
-                <div class="d-flex align-items-center">
-                    <a href="/dashboard">
-                        <img src="/static/images/Logo.png" alt="SK Rookies x WELAB"
-                            style="height: 50px; margin-right: 20px;">
-                    </a>
-                </div>
-
-                <div class="d-flex align-items-center">
-                    <div class="user-badge">
-                        <i class="fas fa-check-circle"></i> 루키즈 AI 보안 28기
-                    </div>
-                    <span class="text-white me-4" style="font-size:0.95rem;"><strong>
-                            <%= session.getAttribute("user_name") %>
-                        </strong>님 환영합니다.</span>
-
-                    <a href="/dashboard" class="btn-nav me-2"><i class="fas fa-home"></i> 홈</a>
-                    <a href="/myinfo?id=<%= session.getAttribute("user_id") %>" class="btn-nav me-2"><i
-                            class="fas fa-user"></i> 내 정보</a>
-                    <a href="javascript:void(0);" class="btn-nav" onclick="handleLogout()"><i
-                            class="fas fa-sign-out-alt"></i> 로그아웃</a>
-
-                    <script>
-                        function handleLogout() {
-                            localStorage.removeItem("accessToken");
-                            alert("로그아웃 되었습니다.");
-                            location.href = "/logout";
-                        }
-                    </script>
-                </div>
-
-            </div>
-        </nav>
+        <jsp:include page="/WEB-INF/views/common/nav.jsp" />
         <div class="container mt-5">
             <h4 class="fw-bold text-primary mb-4">스터디그룹 등록</h4>
 

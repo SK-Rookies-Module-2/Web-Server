@@ -135,8 +135,4 @@
             </div>
 
         </div>
-
-        <div class="bottom-action-bar">
-            <button class="btn-big-orange">강의실 입장</button>
-        </div>
     </div>
