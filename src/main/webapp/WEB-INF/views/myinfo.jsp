@@ -8,170 +8,11 @@
             <title>내 정보 | We Lab Space</title>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+            <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
+            <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/myinfo.css">
             <link href="/static/css/welab.css" rel="stylesheet">
-            <style>
-                /* 1. 배경 및 기본 폰트 설정 */
-                body {
-                    background-color: #f4f7f9;
-                    font-family: 'Noto Sans KR', sans-serif;
-                    margin: 0;
-                    padding: 0;
-                    min-height: 100vh;
-                }
 
-                /* 2. 메인 레이아웃 - 네비게이션이 없으므로 상단 여백을 충분히 확보 */
-                .main-wrapper {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    padding-top: 80px;
-                    padding-bottom: 100px;
-                }
-
-                .nav-tabs-custom {
-                    border: none;
-                    gap: 4px;
-                    margin-bottom: -1px;
-                    z-index: 2;
-                }
-
-                .nav-tabs-custom .nav-link {
-                    background-color: #e2e8f0;
-                    color: #4a5568;
-                    border: none;
-                    border-radius: 12px 12px 0 0;
-                    padding: 12px 30px;
-                    font-size: 0.95rem;
-                    font-weight: 500;
-                }
-
-                .nav-tabs-custom .nav-link.active {
-                    background-color: #ffffff;
-                    color: #004a99;
-                    font-weight: bold;
-                    border-top: 4px solid #004a99;
-                }
-
-                /* 3. 정보 카드 박스 */
-                .info-card {
-                    background-color: #ffffff;
-                    width: 800px;
-                    max-width: 95%;
-                    border-radius: 20px;
-                    padding: 50px 70px;
-                    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-                    text-align: center;
-                }
-
-                /* 4. 타이틀 장식 */
-                .page-title {
-                    color: #004a99;
-                    font-size: 1.8rem;
-                    font-weight: bold;
-                    margin-bottom: 5px;
-                }
-
-                .pink-dot {
-                    width: 6px;
-                    height: 6px;
-                    background-color: #ff99cc;
-                    border-radius: 50%;
-                    margin: 5px auto 40px;
-                }
-
-                /* 5. 포인트 섹션 */
-                .point-container {
-                    background-color: #f8fafc;
-                    border: 1px solid #edf2f7;
-                    border-radius: 12px;
-                    padding: 20px 25px;
-                    margin-bottom: 40px;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                }
-
-                .point-label {
-                    font-weight: bold;
-                    font-size: 1.05rem;
-                    color: #333;
-                }
-
-                .point-value {
-                    font-size: 1.3rem;
-                    margin-left: 10px;
-                    color: #000;
-                }
-
-                /* 6. 입력 폼 스타일 */
-                .form-group-custom {
-                    text-align: left;
-                    margin-bottom: 25px;
-                }
-
-                .form-label-small {
-                    font-size: 0.85rem;
-                    color: #718096;
-                    margin-bottom: 4px;
-                }
-
-                .input-underline {
-                    border: none;
-                    border-bottom: 1px solid #e2e8f0;
-                    border-radius: 0;
-                    padding: 10px 0;
-                    width: 100%;
-                    font-size: 1.1rem;
-                    background: transparent;
-                }
-
-                .input-underline:focus {
-                    outline: none;
-                    border-bottom: 2px solid #004a99;
-                }
-
-                /* 7. 버튼 스타일 */
-                .btn-group-bottom {
-                    display: flex;
-                    justify-content: center;
-                    gap: 15px;
-                    margin-top: 45px;
-                }
-
-                .btn-custom {
-                    padding: 12px 40px;
-                    border-radius: 8px;
-                    font-weight: bold;
-                    font-size: 1rem;
-                }
-
-                .btn-white {
-                    border: 1px solid #cbd5e0;
-                    color: #4a5568;
-                    background: #fff;
-                }
-
-                .btn-blue {
-                    background-color: #2b6cb0;
-                    color: #fff;
-                    border: none;
-                }
-
-                .btn-pw-change {
-                    background-color: #4a5568;
-                    color: #fff;
-                    border: none;
-                }
-
-                /* 8. 푸터 */
-                .footer-area {
-                    background-color: #004a99;
-                    color: #fff;
-                    text-align: center;
-                    padding: 40px 0;
-                    width: 100%;
-                }
-            </style>
         </head>
 
         <body>
@@ -228,7 +69,10 @@
                             <div class="btn-group-bottom">
                                 <button class="btn-custom btn-white" onclick="location.href='/dashboard'">취소</button>
                                 <button class="btn-custom btn-blue">변경</button>
-                                <button class="btn-custom btn-pw-change">비밀번호 변경</button>
+                                <button type="button" class="btn-custom btn-pw-change"
+                                    onclick="location.href='${pageContext.request.contextPath}/changePw'">
+                                    비밀번호 변경
+                                </button>
                             </div>
                         </div>
 

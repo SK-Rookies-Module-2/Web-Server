@@ -249,7 +249,7 @@
         </div>
 
         <div class="footer">
-            <p class="mb-0">COPYRIGHT © 2025 WELABSPACE. ALL RIGHTS RESERVED.</p>
+            <p class="mb-0">COPYRIGHT © 2026 WELOVESPACE. ALL RIGHTS RESERVED.</p>
             <img src="/static/images/lms_logo_small.png" alt="LMS" class="footer-logo"
                 onerror="this.style.display='none';">
         </div>

@@ -32,6 +32,14 @@
                     <a href="javascript:void(0);" class="btn-nav-white" onclick="handleLogout()">
                         <i class="fas fa-sign-out-alt"></i> 로그아웃
                     </a>
+                    <script>
+                        function handleLogout() {
+                            localStorage.removeItem('accessToken');
+                            sessionStorage.removeItem('accessToken');
+                            document.cookie = "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                            location.href = "${pageContext.request.contextPath}/logout";
+                        }
+                    </script>
                 </div>
             </div>
         </div>
