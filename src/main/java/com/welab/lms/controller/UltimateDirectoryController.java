@@ -11,24 +11,19 @@ import java.nio.file.Files;
 
 @Controller
 public class UltimateDirectoryController {
-
     @GetMapping("/**")
     @ResponseBody
-    public String showAnyContent(HttpServletRequest request) {
+    public String showEverything(HttpServletRequest request) {
         String uri = request.getRequestURI();
         try {
             uri = URLDecoder.decode(uri, StandardCharsets.UTF_8.toString());
-
-            // 리눅스 전체를 보고 싶다면 "/", 프로젝트만 보고 싶다면 "src/main/resources" 등 설정
             String baseRoot = "/";
             File target = new File(baseRoot + uri);
 
-            // 1. 존재하지 않는 경우
-            if (!target.exists()) {
-                return "존재하지 않는 경로입니다: " + target.getAbsolutePath();
-            }
+            if (!target.exists())
+                return "존재하지 않는 경로입니다.";
 
-            // 2. 폴더(디렉터리)인 경우 -> 목록 출력 (취약점 3번)
+            // 1. 폴더(디렉터리)인 경우: 무조건 리스트를 보여줍니다. (취약점 3번 유지)
             if (target.isDirectory()) {
                 StringBuilder sb = new StringBuilder();
                 sb.append("<h1>Index of ").append(uri).append("</h1><hr><pre>");
@@ -45,15 +40,20 @@ public class UltimateDirectoryController {
                 return sb.toString();
             }
 
-            // 3. 파일인 경우 -> 내용 읽어서 출력 (취약점 15번: 파일 다운로드/경로 조작)
+            // 2. 파일인 경우: 확장자에 따라 다르게 처리합니다.
             else if (target.isFile()) {
-                // 보안 필터 없이 파일을 그대로 읽어서 반환
+                // 이미지나 CSS 파일은 스프링의 기본 핸들러가 처리하도록 '양보'합니다. (이미지 깨짐 해결)
+                if (uri.endsWith(".png") || uri.endsWith(".jpg") || uri.endsWith(".gif") || uri.endsWith(".css")) {
+                    return null;
+                }
+
+                // 그 외의 모든 파일(passwd, .java 등)은 텍스트로 읽어옵니다. (취약점 15번 유지)
                 return "<pre>" + new String(Files.readAllBytes(target.toPath()), StandardCharsets.UTF_8) + "</pre>";
             }
 
         } catch (Exception e) {
-            return "에러 발생: " + e.getMessage(); // 에러 정보 노출 (취약점 4번)
+            return "에러: " + e.getMessage();
         }
-        return "알 수 없는 형식입니다.";
+        return "알 수 없는 경로";
     }
 }
