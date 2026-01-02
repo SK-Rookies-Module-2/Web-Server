@@ -245,4 +245,66 @@ public class StudyController {
         return "study_board";
     }
 
+    // 6. 게시글 삭제 (보안 패치 완료: 작성자 검증 추가)
+    // 6. 게시글 삭제 (다시 취약하게 수정: 작성자 검사 삭제)
+    @GetMapping("/study/post/delete")
+    public String deleteStudyPost(@RequestParam("no") int postNo, @RequestParam int studyNo) {
+        String sql = "DELETE FROM study_posts WHERE post_no = ?";
+        try (Connection conn = dataSource.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, postNo);
+            pstmt.executeUpdate();
+            // 삭제 성공 로그 (실습 확인용)
+            System.out.println("[공격 성공 확인] " + postNo + "번 글이 삭제되었습니다.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "redirect:/study/board?no=" + studyNo;
+    }
+
+    // 7. 게시글 수정 폼 (다시 취약하게 수정: 작성자 검사 삭제)
+    @GetMapping("/study/post/edit")
+    public String editStudyPostForm(@RequestParam("no") int postNo, Model model) {
+        String sql = "SELECT * FROM study_posts WHERE post_no = ?";
+        try (Connection conn = dataSource.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, postNo);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                Map<String, Object> post = new HashMap<>();
+                post.put("post_no", rs.getInt("post_no"));
+                post.put("title", rs.getString("title"));
+                post.put("content", rs.getString("content"));
+                post.put("study_no", rs.getInt("study_no"));
+                model.addAttribute("post", post);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "study_post_edit";
+    }
+
+    @PostMapping("/study/post/edit")
+    public String editStudyPostProc(
+            @RequestParam int no,
+            @RequestParam int studyNo,
+            @RequestParam String title,
+            @RequestParam String content) {
+
+        // [취약점] 작성자 검증 누락 + XSS 필터링 미흡
+        String sql = "UPDATE study_posts SET title = ?, content = ? WHERE no = ?";
+
+        try (Connection conn = dataSource.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, title);
+            pstmt.setString(2, content);
+            pstmt.setInt(3, no);
+            pstmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "redirect:/study/board?no=" + studyNo;
+    }
 }

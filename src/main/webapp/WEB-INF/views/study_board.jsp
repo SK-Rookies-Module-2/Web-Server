@@ -170,7 +170,7 @@
             </head>
 
             <body>
-
+                <jsp:include page="/WEB-INF/views/common/nav.jsp" />
                 <div class="main-container">
                     <div class="d-flex justify-content-between">
                         <div>
@@ -212,6 +212,8 @@
                                 <th class="text-start-title" style="width: 40%;">제목</th>
                                 <th>작성일</th>
                                 <th>조회</th>
+                                <%-- 🟢 관리 컬럼 추가 --%>
+                                    <th>관리</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -220,24 +222,39 @@
                                     <td>${post.post_no}</td>
                                     <td>${post.writer}</td>
                                     <td class="text-start-title">
-                                        <%-- 🟢 게시글 상세 보기 링크 추가 --%>
-                                            <a href="/study/post/detail?postNo=${post.post_no}" class="post-link">
-                                                ${post.title}
+                                        <a href="/study/post/detail?postNo=${post.post_no}" class="post-link">
+                                            ${post.title}
+                                        </a>
+                                        <c:if test="${not empty post.file_name}">
+                                            <a href="/static/images/${post.file_name}" target="_blank">
+                                                <i class="fas fa-file-alt text-primary ms-2"></i>
                                             </a>
-                                            <%-- 파일 아이콘 (클릭 시 실행/다운로드) --%>
-                                                <c:if test="${not empty post.file_name}">
-                                                    <a href="/static/images/${post.file_name}" target="_blank">
-                                                        <i class="fas fa-file-alt text-primary ms-2"></i>
-                                                    </a>
-                                                </c:if>
+                                        </c:if>
                                     </td>
                                     <td>${fn:substring(post.reg_date, 0, 10)}</td>
                                     <td>0</td>
+                                    <td>
+                                        <div class="d-flex justify-content-center gap-2">
+                                            <%-- ✅ 내가 쓴 글일 때만 '수정/삭제' 버튼 노출 (UX상 안전해 보임) --%>
+                                                <c:if test="${sessionScope.user_name eq post.writer}">
+                                                    <a href="/study/post/edit?no=${post.post_no}"
+                                                        class="btn btn-sm btn-outline-primary">
+                                                        <i class="fas fa-edit"></i> 수정
+                                                    </a>
+                                                    <a href="/study/post/delete?no=${post.post_no}&studyNo=${study.no}"
+                                                        class="btn btn-sm btn-outline-danger"
+                                                        onclick="return confirm('정말 삭제하시겠습니까?')">
+                                                        <i class="fas fa-trash"></i> 삭제
+                                                    </a>
+                                                </c:if>
+                                        </div>
+                                    </td>
                                 </tr>
                             </c:forEach>
                             <c:if test="${empty postList}">
                                 <tr>
-                                    <td colspan="5" class="text-center py-5 text-muted">등록된 게시글이 없습니다.</td>
+                                    <%-- 🟢 colspan을 6으로 수정 (관리 컬럼 포함) --%>
+                                        <td colspan="6" class="text-center py-5 text-muted">등록된 게시글이 없습니다.</td>
                                 </tr>
                             </c:if>
                         </tbody>

@@ -1,15 +1,19 @@
 package com.welab.lms.controller;
 
+import com.welab.lms.util.JwtUtil; // JwtUtil 임포트
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.time.LocalDate; // 날짜 저장을 위해 필요
+import java.sql.ResultSet;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class BoardController {
@@ -17,20 +21,12 @@ public class BoardController {
     @Autowired
     private DataSource dataSource;
 
+    // 공지사항 리스트 (누구나 접근 가능)
     @GetMapping("/board/list")
     public String boardList() {
         return "board_list";
     }
 
-    // 공지사항 작성 페이지 이동 (GET)
-    @GetMapping("/board/notice/write")
-    public String noticeWriteForm() {
-        return "notice_write";
-    }
-
-    // ==========================================
-    // 1. 공지사항 상세 조회 (GET)
-    // ==========================================
     @GetMapping("/board/notice/view")
     public String noticeView(@RequestParam int no, org.springframework.ui.Model model) {
         String sqlUpdateView = "UPDATE notices SET views = views + 1 WHERE no = ?";
@@ -70,9 +66,46 @@ public class BoardController {
         return "notice_view";
     }
 
-    // ==========================================
-    // 2. 공지사항 삭제 (GET) - 취약점: 권한 체크 없음!
-    // ==========================================
+    // 1. 공지사항 작성 페이지 (GET)
+    @GetMapping("/board/notice/write")
+    public String noticeWriteForm(@RequestHeader(value = "Authorization", required = false) String bearerToken,
+            Model model) {
+        if (isAdmin(bearerToken)) {
+            return "notice_write";
+        }
+        model.addAttribute("msg", "관리자 권한이 필요합니다.");
+        return "access_denied"; // 권한 없음 페이지
+    }
+
+    // 2. 공지사항 등록 처리 (POST)
+    @PostMapping("/board/notice/write")
+    public String noticeWriteProc(
+            @RequestHeader(value = "Authorization", required = false) String bearerToken,
+            @RequestParam String category,
+            @RequestParam String title,
+            @RequestParam String content,
+            @RequestParam(required = false, defaultValue = "false") String isImportant) {
+
+        if (!isAdmin(bearerToken))
+            return "redirect:/access_denied";
+
+        String sql = "INSERT INTO notices (category, title, writer, content, reg_date, is_important) VALUES (?, ?, '관리자', ?, ?, ?)";
+        try (Connection conn = dataSource.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, category);
+            pstmt.setString(2, title);
+            pstmt.setString(3, content);
+            pstmt.setString(4, LocalDate.now().toString());
+            pstmt.setBoolean(5, Boolean.parseBoolean(isImportant));
+            pstmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "redirect:/lecture_view?tab=notice";
+    }
+
+    // 3. 공지사항 삭제 (GET)
     @GetMapping("/board/notice/delete")
     public String noticeDelete(@RequestParam int no) {
         String sql = "DELETE FROM notices WHERE no = ?";
@@ -88,9 +121,7 @@ public class BoardController {
         return "redirect:/lecture_view?tab=notice";
     }
 
-    // ==========================================
-    // 3. 공지사항 수정 페이지 이동 (GET)
-    // ==========================================
+    // 4. 공지사항 수정 페이지 이동 (GET)
     @GetMapping("/board/notice/edit")
     public String noticeEditForm(@RequestParam int no, org.springframework.ui.Model model) {
         String sql = "SELECT * FROM notices WHERE no = ?";
@@ -113,9 +144,7 @@ public class BoardController {
         return "notice_edit";
     }
 
-    // ==========================================
-    // 4. 공지사항 수정 처리 (POST)
-    // ==========================================
+    // 5. 공지사항 수정 처리 (POST)
     @PostMapping("/board/notice/edit")
     public String noticeEditProc(
             @RequestParam int no,
@@ -139,53 +168,9 @@ public class BoardController {
         return "redirect:/board/notice/view?no=" + no;
     }
 
-    // ==========================================
-    // 5. 공지사항 등록 처리 (POST)
-    // ==========================================
-    @PostMapping("/board/notice/write")
-    public String noticeWriteProc(
-            @RequestParam String category,
-            @RequestParam String title,
-            @RequestParam String content,
-            // @RequestParam String writer, <-- 이거 삭제함 (화면에서 안 받음)
-            @RequestParam(required = false, defaultValue = "false") String isImportant,
-            javax.servlet.http.HttpSession session // <-- 세션 추가
-    ) {
-        // [핵심] 화면에서 받는 게 아니라, 서버에 저장된 세션 정보에서 꺼냄
-        String writer = (String) session.getAttribute("user_name");
-
-        // 만약 로그인을 안 하고 URL로 몰래 들어왔다면? (세션이 없음)
-        if (writer == null) {
-            writer = "익명(해킹시도)";
-        }
-
-        String sql = "INSERT INTO notices (category, title, writer, content, reg_date, is_important) VALUES (?, ?, ?, ?, ?, ?)";
-
-        try (Connection conn = dataSource.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, category);
-            pstmt.setString(2, title);
-            pstmt.setString(3, writer); // 세션에서 꺼낸 이름 저장
-            pstmt.setString(4, content);
-            pstmt.setString(5, LocalDate.now().toString());
-            pstmt.setBoolean(6, Boolean.parseBoolean(isImportant));
-
-            pstmt.executeUpdate();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return "redirect:/lecture_view?tab=notice";
-    }
-
-    // ==========================================
-    // 6. 공지사항 숨기기/공개 토글 (GET) - 취약점: 권한 체크 없음
-    // ==========================================
+    // 6. 숨기기 토글 (GET)
     @GetMapping("/board/notice/hide")
     public String noticeHideToggle(@RequestParam int no) {
-        // [SQL] 현재 값의 반대로 뒤집기 (NOT 연산)
         String sql = "UPDATE notices SET is_visible = NOT is_visible WHERE no = ?";
 
         try (Connection conn = dataSource.getConnection();
@@ -196,7 +181,15 @@ public class BoardController {
             e.printStackTrace();
         }
 
-        // 처리가 끝나면 다시 해당 글 상세 페이지로 돌아감
         return "redirect:/board/notice/view?no=" + no;
+    }
+
+    private boolean isAdmin(String bearerToken) {
+        if (bearerToken == null || !bearerToken.startsWith("Bearer ")) {
+            return false;
+        }
+        String token = bearerToken.substring(7);
+        String role = JwtUtil.getRoleVulnerable(token);
+        return "admin".equals(role);
     }
 }
