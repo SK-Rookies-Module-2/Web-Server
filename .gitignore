@@ -1,0 +1,29 @@
+# Maven build output
+/target/
+
+# Logs and runtime artifacts
+*.log
+/logs/
+/tmp/
+*.pid
+hs_err_pid*
+
+# IDE/editor files
+/.idea/
+*.iml
+/.classpath
+/.project
+/.settings/
+/.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Secrets/certs
+*.pem
+*.key
+*.jks
+*.p12
+*.pfx
+*.env
