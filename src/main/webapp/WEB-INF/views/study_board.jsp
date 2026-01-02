@@ -295,12 +295,11 @@
                                         <div class="mb-3">
                                             <label class="form-label small fw-bold">파일 첨부 (취약점 실습)</label>
                                             <input type="file" name="file" class="form-control">
-                                            <div class="form-text text-danger">※ 확장자 검사가 없는 취약한 업로드 폼입니다.</div>
                                         </div>
                                     </div>
                                     <div class="modal-footer border-0 px-4 pb-4">
-                                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">취소</button>
                                         <button type="submit" class="btn btn-primary px-4">등록하기</button>
+                                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">취소</button>
                                     </div>
                                 </form>
                             </div>
