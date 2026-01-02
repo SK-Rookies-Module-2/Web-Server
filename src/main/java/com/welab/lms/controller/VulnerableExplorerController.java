@@ -2,7 +2,7 @@ package com.welab.lms.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;

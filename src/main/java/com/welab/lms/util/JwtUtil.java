@@ -2,12 +2,16 @@ package com.welab.lms.util;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import java.util.Date;
 import java.util.Base64;
+import java.nio.charset.StandardCharsets;
+import javax.crypto.SecretKey;
 import org.json.JSONObject;
 
 public class JwtUtil {
-    private static String secretKey = "welab_secret_key_2025_rookies";
+    private static final String secretKey = "welab_secret_key_2025_rookies_32bytes!";
+    private static final SecretKey signingKey = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
     private static long expirationTime = 1000 * 60 * 60;
 
     public static String createToken(String userId, String role) {
@@ -16,7 +20,7 @@ public class JwtUtil {
                 .claim("role", role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
-                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .signWith(signingKey, SignatureAlgorithm.HS256)
                 .compact();
     }
 

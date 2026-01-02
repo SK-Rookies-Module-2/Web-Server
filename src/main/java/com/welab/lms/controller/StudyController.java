@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 // Servlet 및 HTTP 세션 관련
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 // Database (JDBC) 관련 - [주의] java.sql.Statement를 사용해야 합니다.
 import javax.sql.DataSource;
