@@ -180,8 +180,7 @@
 
                         <div class="content-section">
                             <div style="white-space: pre-wrap; line-height: 1.8; color: #444;">
-                                <p class="fw-bold">[스터디 소개]</p>
-                                ${study.content}
+                                <p class="fw-bold">[스터디 소개]</p>${study.content}
                             </div>
                         </div>
 

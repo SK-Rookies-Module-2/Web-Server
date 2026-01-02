@@ -37,8 +37,7 @@
                         </div>
                     </div>
 
-                    <div class="mb-5" style="min-height: 200px; white-space: pre-wrap; line-height: 1.6;">
-                        ${notice.content}</div>
+                    <div class="mb-5" style="min-height: 200px; white-space: pre-wrap; line-height: 1.6;">${notice.content}</div>
 
                     <div class="d-flex justify-content-between">
                         <button class="btn btn-secondary"
