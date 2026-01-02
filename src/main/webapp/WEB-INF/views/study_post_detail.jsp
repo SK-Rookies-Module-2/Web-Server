@@ -68,17 +68,12 @@
                     </div>
                 </div>
 
-                <div class="post-content">
-                    <%-- 🟢 [Stored XSS 취약점] escapeXml="false" 가 없더라도 기본적으로 스크립트가 실행될 수 있는 구조입니다. 만약 스크립트가 실행되지 않는다면
-                        ${post.content}를 그대로 출력하세요. --%>
-                        ${post.content}
-                </div>
+                <div class="post-content">${post.content}</div>
 
                 <c:if test="${not empty post.file_name}">
                     <div class="file-box">
                         <strong><i class="fas fa-paperclip"></i> 첨부 파일:</strong>
-                        <a href="/static/images/${post.file_name}" target="_blank"
-                            class="ms-2 text-primary font-weight-bold">
+                        <a href="/study/download?fileName=${post.file_name}" class="ms-2 text-primary font-weight-bold">
                             ${post.file_name}
                         </a>
                     </div>

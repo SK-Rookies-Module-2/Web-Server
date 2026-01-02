@@ -32,34 +32,22 @@ public class LoginController {
         try {
             Connection conn = dataSource.getConnection();
             Statement stmt = conn.createStatement();
-
-            // [취약점 유지] SQL Injection 실습용 쿼리
             String sql = "SELECT * FROM users WHERE id = '" + id + "' AND password = '" + pw + "'";
             System.out.println("[DEBUG] Query: " + sql);
 
             ResultSet rs = stmt.executeQuery(sql);
 
             if (rs.next()) {
-                // 1. 세션 방식 (서버 세션 저장)
                 session.setAttribute("user_id", rs.getString("id"));
                 session.setAttribute("user_name", rs.getString("name"));
                 session.setAttribute("user_role", rs.getString("role"));
-
-                // 2. JWT 방식 추가 (토큰 생성)
-                // rs.getString("role")이 없다면 "USER"로 기본값 설정
                 String role = rs.getString("role") != null ? rs.getString("role") : "USER";
                 String token = JwtUtil.createToken(rs.getString("id"), role);
-
-                // 생성된 토큰을 모델에 담아 전송
                 model.addAttribute("jwtToken", token);
-
-                // 학습 계정 정보 랜덤 생성 로직 (기존 유지)
                 if (rs.getString("aws_account") == null || rs.getString("aws_account").isEmpty()) {
                     updateUserLearningInfo(rs.getString("id"), generateAwsAccount(), rs.getString("id"),
                             "Welabs!" + generateRandomString(5), getRandomRegion());
                 }
-
-                // [중요] redirect 대신 login_success 페이지로 가서 토큰을 로컬스토리지에 저장함
                 return "login_success";
             } else {
                 return "login";
@@ -150,7 +138,6 @@ public class LoginController {
         return "find_account";
     }
 
-    // --- 유틸리티 메서드들 ---
     private String generateAwsAccount() {
         Random rnd = new Random();
         StringBuilder sb = new StringBuilder();

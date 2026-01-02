@@ -12,6 +12,9 @@ import org.springframework.web.multipart.MultipartFile;
 // Servlet 및 HTTP 세션 관련
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 // Database (JDBC) 관련 - [주의] java.sql.Statement를 사용해야 합니다.
 import javax.sql.DataSource;
@@ -22,7 +25,9 @@ import java.sql.Statement;
 
 // Java 유틸리티 및 입출력
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -149,7 +154,7 @@ public class StudyController {
 
         String fileName = "";
         if (!file.isEmpty()) {
-            String uploadPath = request.getServletContext().getRealPath("/static/images");
+            String uploadPath = request.getServletContext().getRealPath("/static/folder");
             fileName = file.getOriginalFilename();
             File dest = new File(uploadPath + File.separator + fileName);
             file.transferTo(dest);
@@ -245,17 +250,49 @@ public class StudyController {
         return "study_board";
     }
 
-    // 6. 게시글 삭제 (보안 패치 완료: 작성자 검증 추가)
-    // 6. 게시글 삭제 (다시 취약하게 수정: 작성자 검사 삭제)
+    // 6. 게시글 삭제
     @GetMapping("/study/post/delete")
-    public String deleteStudyPost(@RequestParam("no") int postNo, @RequestParam int studyNo) {
-        String sql = "DELETE FROM study_posts WHERE post_no = ?";
-        try (Connection conn = dataSource.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, postNo);
-            pstmt.executeUpdate();
-            // 삭제 성공 로그 (실습 확인용)
-            System.out.println("[공격 성공 확인] " + postNo + "번 글이 삭제되었습니다.");
+    public String deleteStudyPost(
+            @RequestParam("no") int postNo,
+            @RequestParam int studyNo,
+            HttpServletRequest request) {
+
+        String selectSql = "SELECT file_name FROM study_posts WHERE post_no = ?";
+        String deleteSql = "DELETE FROM study_posts WHERE post_no = ?";
+
+        try (Connection conn = dataSource.getConnection()) {
+
+            // 1. 삭제 전 파일명 먼저 조회
+            String fileName = null;
+            try (PreparedStatement pstmt = conn.prepareStatement(selectSql)) {
+                pstmt.setInt(1, postNo);
+                ResultSet rs = pstmt.executeQuery();
+                if (rs.next()) {
+                    fileName = rs.getString("file_name");
+                }
+            }
+
+            // 2. 실제 파일이 존재한다면 서버 폴더에서 삭제
+            if (fileName != null && !fileName.trim().isEmpty()) {
+                String uploadPath = request.getServletContext().getRealPath("/static/folder");
+                File file = new File(uploadPath + File.separator + fileName);
+
+                if (file.exists()) {
+                    if (file.delete()) {
+                        System.out.println("[파일 삭제 성공] " + fileName);
+                    } else {
+                        System.out.println("[파일 삭제 실패] 권한 문제 또는 파일 사용 중");
+                    }
+                }
+            }
+
+            // 3. DB 레코드 삭제
+            try (PreparedStatement pstmt = conn.prepareStatement(deleteSql)) {
+                pstmt.setInt(1, postNo);
+                pstmt.executeUpdate();
+                System.out.println("[공격 성공 확인] " + postNo + "번 데이터가 삭제되었습니다.");
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -292,8 +329,7 @@ public class StudyController {
             @RequestParam String title,
             @RequestParam String content) {
 
-        // [취약점] 작성자 검증 누락 + XSS 필터링 미흡
-        String sql = "UPDATE study_posts SET title = ?, content = ? WHERE no = ?";
+        String sql = "UPDATE study_posts SET title = ?, content = ? WHERE post_no = ?";
 
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -301,10 +337,64 @@ public class StudyController {
             pstmt.setString(2, content);
             pstmt.setInt(3, no);
             pstmt.executeUpdate();
+
+            System.out.println("[수정 완료] 게시글 번호: " + no);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         return "redirect:/study/board?no=" + studyNo;
+    }
+
+    // 다운로드 로직
+    @GetMapping("/study/download")
+    public void fileDownload(@RequestParam String fileName,
+            HttpServletRequest request,
+            HttpServletResponse response) throws IOException {
+
+        // 사용자가 입력한 fileName에 '../'와 같은 경로 조작 문자열이 있는지 검증하지 않음
+        String uploadPath = request.getServletContext().getRealPath("/static/folder");
+        File file = new File(uploadPath + File.separator + fileName);
+
+        if (file.exists()) {
+            // 파일을 읽어서 브라우저로 전송하는 로직
+            response.setContentType("application/octet-stream");
+            response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+
+            try (FileInputStream fis = new FileInputStream(file);
+                    OutputStream os = response.getOutputStream()) {
+                byte[] buffer = new byte[1024];
+                int len;
+                while ((len = fis.read(buffer)) != -1) {
+                    os.write(buffer, 0, len);
+                }
+            }
+        }
+    }
+
+    @GetMapping("/study/post/detail")
+    public String studyPostDetail(@RequestParam("no") int postNo, Model model) {
+        String sql = "SELECT * FROM study_posts WHERE post_no = ?";
+
+        try (Connection conn = dataSource.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, postNo);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                Map<String, Object> post = new HashMap<>();
+                post.put("post_no", rs.getInt("post_no"));
+                post.put("title", rs.getString("title"));
+                post.put("writer", rs.getString("writer"));
+                post.put("content", rs.getString("content"));
+                post.put("file_name", rs.getString("file_name"));
+                post.put("reg_date", rs.getString("reg_date"));
+                post.put("study_no", rs.getInt("study_no"));
+                model.addAttribute("post", post);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "study_post_detail";
     }
 }
