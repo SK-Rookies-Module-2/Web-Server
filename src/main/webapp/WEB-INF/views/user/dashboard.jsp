@@ -32,7 +32,7 @@
                 <div class="container-custom mt-5">
 
                     <%-- 2. 관리자(ADMIN) 권한일 때만 화면에 버튼 노출 --%>
-                        <c:if test="${sessionScope.user_role eq 'ADMIN'}">
+                        <c:if test="${cookie.role.value eq 'ADMIN'}">
                             <div class="d-flex justify-content-end mb-4">
                                 <a href="/admin/users" class="btn btn-admin-access btn-sm px-3 fw-bold shadow-sm">
                                     <i class="fas fa-user-shield me-1"></i> 관리자 전용 페이지 접속

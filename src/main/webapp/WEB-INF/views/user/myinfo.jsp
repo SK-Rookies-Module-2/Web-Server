@@ -41,29 +41,29 @@
 
                             <div class="point-container">
                                 <div class="point-label">보유 포인트 <span class="point-value">${point}</span></div>
-                                <button class="btn btn-sm btn-outline-secondary rounded-pill px-3"><i
-                                        class="fas fa-search"></i> 누적현황 보기</button>
+                                <button class="btn btn-sm btn-outline-secondary rounded-pill px-3">
+                                    <i class="fas fa-search"></i> 누적현황 보기
+                                </button>
                             </div>
 
                             <h5 class="text-start fw-bold mb-4" style="color:#004a99;">정보수정</h5>
 
                             <div class="form-group-custom">
                                 <p class="form-label-small">아이디</p>
-                                <input type="text" class="input-underline" value="${userId}" readonly>
+                                <input type="text" class="input-underline" value="${id}" readonly>
                             </div>
                             <div class="form-group-custom">
                                 <p class="form-label-small">닉네임</p>
-                                <input type="text" class="input-underline" value="${userName}"
-                                    placeholder="닉네임을 입력해 주세요.">
+                                <input type="text" class="input-underline" value="${name}" placeholder="닉네임을 입력해 주세요.">
                             </div>
                             <div class="form-group-custom">
                                 <p class="form-label-small">이메일</p>
-                                <input type="text" class="input-underline" value="${userEmail}"
+                                <input type="text" class="input-underline" value="${email}"
                                     style="background-color: #f1f5f9;" readonly>
                             </div>
                             <div class="form-group-custom">
                                 <p class="form-label-small">휴대전화</p>
-                                <input type="text" class="input-underline" value="${userPhone}">
+                                <input type="text" class="input-underline" value="${phone}">
                             </div>
 
                             <div class="btn-group-bottom">
@@ -81,20 +81,20 @@
                             <div class="pink-dot"></div>
                             <div class="mt-5" style="padding: 0 40px;">
                                 <div class="form-group-custom">
-                                    <p class="form-label-small">AWS 계정</p><input type="text" class="input-underline"
-                                        value="${awsAccount}" readonly>
+                                    <p class="form-label-small">AWS 계정</p>
+                                    <input type="text" class="input-underline" value="${aws_account}" readonly>
                                 </div>
                                 <div class="form-group-custom">
-                                    <p class="form-label-small">IAM user</p><input type="text" class="input-underline"
-                                        value="${iamUser}" readonly>
+                                    <p class="form-label-small">IAM user</p>
+                                    <input type="text" class="input-underline" value="${iam_user}" readonly>
                                 </div>
                                 <div class="form-group-custom">
-                                    <p class="form-label-small">AWS 초기 패스워드</p><input type="text"
-                                        class="input-underline" value="${awsPw}" readonly>
+                                    <p class="form-label-small">AWS 초기 패스워드</p>
+                                    <input type="text" class="input-underline" value="${aws_pw}" readonly>
                                 </div>
                                 <div class="form-group-custom">
-                                    <p class="form-label-small">리전</p><input type="text" class="input-underline"
-                                        value="${region}" readonly>
+                                    <p class="form-label-small">리전</p>
+                                    <input type="text" class="input-underline" value="${region}" readonly>
                                 </div>
                             </div>
                         </div>
