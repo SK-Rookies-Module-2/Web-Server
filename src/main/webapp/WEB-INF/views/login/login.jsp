@@ -241,7 +241,7 @@
                 </div>
 
                 <div class="close-btn-container">
-                    <button class="btn-close-pink" onclick="history.back()">
+                    <button class="btn-close-pink">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>

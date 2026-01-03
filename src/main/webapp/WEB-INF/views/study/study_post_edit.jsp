@@ -34,8 +34,8 @@
 
                             <form action="/study/post/edit" method="post">
                                 <%-- 🛠️ 수정 포인트: name 속성을 컨트롤러의 @RequestParam 이름과 일치시킴 --%>
-                                    <input type="hidden" name="no" value="${post.post_no}">
-                                    <input type="hidden" name="studyNo" value="${post.study_no}">
+                                    <input type="hidden" name="post_no" value="${post.post_no}">
+                                    <input type="hidden" name="study_no" value="${post.study_no}">
 
                                     <div class="mb-3">
                                         <label class="form-label fw-bold">제목</label>
