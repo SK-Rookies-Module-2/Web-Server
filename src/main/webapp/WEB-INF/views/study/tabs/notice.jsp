@@ -1,52 +1,48 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+        <link rel="stylesheet" href="/static/css/notice.css">
 
         <div id="notice">
-            <div class="d-flex justify-content-end mb-3" style="min-height: 38px;">
+            <div class="notice-header-tools">
                 <c:if test="${sessionScope.user_id == 'admin'}">
-                    <button class="btn btn-danger fw-bold" onclick="location.href='/board/notice/write'">
-                        <i class="fas fa-bullhorn"></i> 공지사항 등록
+                    <button class="btn btn-danger btn-sm fw-bold px-3" onclick="location.href='/board/notice/write'">
+                        <i class="fas fa-bullhorn me-1"></i> 공지사항 등록
                     </button>
                 </c:if>
             </div>
 
-            <div style="border-top: 1px solid #333;"></div>
-
-            <table class="table-welab table-hover text-center" style="border-top:none;">
+            <table class="table-notice text-center">
                 <thead>
                     <tr>
-                        <th style="width:10%">No</th>
+                        <th style="width:8%">No</th>
                         <th style="width:10%">분류</th>
-                        <th style="width:45%">제목</th>
+                        <th style="width:47%">제목</th>
                         <th style="width:15%">작성자</th>
-                        <th style="width:10%">작성일</th>
-                        <th style="width:10%">조회</th>
+                        <th style="width:12%">작성일</th>
+                        <th style="width:8%">조회</th>
                     </tr>
                 </thead>
                 <tbody>
                     <c:forEach var="notice" items="${noticeList}">
-                        <tr style="cursor:pointer; 
-                    ${notice.is_important ? 'background-color: #fff5f5;' : ''} 
-                    ${!notice.is_visible ? 'background-color: #f0f0f0; color: #999;' : ''}"
+                        <tr style="cursor:pointer;"
+                            class="${notice.is_important ? 'row-important' : ''} ${!notice.is_visible ? 'row-hidden' : ''}"
                             onclick="location.href='/board/notice/view?no=${notice.no}'">
 
                             <td>
                                 <c:choose>
-                                    <c:when test="${notice.is_important}"><span class="badge bg-danger">필독</span>
+                                    <c:when test="${notice.is_important}">
+                                        <span class="badge badge-important">필독</span>
                                     </c:when>
                                     <c:otherwise>${notice.no}</c:otherwise>
                                 </c:choose>
                             </td>
 
-                            <td class="${notice.is_important ? 'text-danger fw-bold' : ''}">${notice.category}</td>
+                            <td class="${notice.is_important ? 'text-danger' : ''}">${notice.category}</td>
 
-                            <td class="text-start ${notice.is_important ? 'fw-bold text-danger' : ''}">
-                                ${notice.title}
-
+                            <td class="td-title">
+                                <span class="${notice.is_important ? 'text-danger' : ''}">${notice.title}</span>
                                 <c:if test="${!notice.is_visible}">
-                                    <span class="badge bg-secondary ms-2" style="font-size: 0.75em;">
-                                        <i class="fas fa-eye-slash"></i> 비공개
-                                    </span>
+                                    <small class="text-muted ms-2"><i class="fas fa-eye-slash"></i></small>
                                 </c:if>
                             </td>
 
@@ -58,22 +54,28 @@
 
                     <c:if test="${empty noticeList}">
                         <tr>
-                            <td colspan="6" class="py-5 text-muted">등록된 공지사항이 없습니다.</td>
+                            <td colspan="6" class="empty-msg text-center">
+                                공지가 없습니다
+                            </td>
                         </tr>
                     </c:if>
                 </tbody>
             </table>
 
-            <div class="d-flex justify-content-center mt-4">
-                <nav aria-label="Page navigation">
-                    <ul class="pagination">
-                        <li class="page-item disabled"><a class="page-link" href="#"><i
-                                    class="fas fa-chevron-left"></i></a></li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
+            <c:if test="${not empty noticeList}">
+                <div class="d-flex justify-content-center">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination shadow-sm">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#"><i class="fas fa-chevron-left"></i></a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </c:if>
         </div>

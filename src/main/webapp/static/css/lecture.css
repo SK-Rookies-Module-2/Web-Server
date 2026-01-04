@@ -1,0 +1,108 @@
+/* lecture.css */
+
+/* 전체 배경 및 폰트 설정 */
+body {
+    background-color: #ffffff !important;
+    /* 배경색 흰색 강제 적용 */
+    font-family: 'Pretendard', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container-custom {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+}
+
+/* 상단 과정 정보 배너 */
+.course-banner {
+    background: #ffffff;
+    border-bottom: 1px solid #eeeeee;
+    padding: 30px 0;
+}
+
+.course-tag {
+    display: inline-block;
+    background: #f8f9fa;
+    border: 1px solid #eeeeee;
+    color: #666666;
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 5px;
+    margin-right: 5px;
+}
+
+/* 버튼 스타일: 이미지와 동일한 색상 매핑 */
+.btn-orange {
+    background-color: #e67e22;
+    color: #ffffff;
+    border: none;
+    font-weight: bold;
+}
+
+.btn-orange:hover {
+    background-color: #d35400;
+    color: #ffffff;
+}
+
+/* 탭 네비게이션 컨테이너 */
+.lecture-nav-container {
+    background: #ffffff;
+    border-bottom: 1px solid #dee2e6;
+    margin-top: 20px;
+}
+
+.lecture-tabs {
+    border-bottom: none;
+    position: relative;
+}
+
+/* 탭 우측 하단 캐릭터 장식 (이미지 재현) */
+.lecture-tabs::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 120px;
+    height: 80px;
+    background: url('/static/images/deco_people.png') no-repeat center/contain;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* 개별 탭 버튼 스타일 */
+.lecture-tabs .nav-link {
+    border: none;
+    color: #666666;
+    font-weight: 500;
+    padding: 12px 25px;
+    background: #f8f9fa;
+    /* 비활성 탭은 연한 회색 */
+    margin-right: 5px;
+    border-radius: 10px 10px 0 0;
+    transition: all 0.2s;
+}
+
+.lecture-tabs .nav-link.active {
+    background: #ffffff;
+    color: #0066cc;
+    border: 1px solid #dee2e6;
+    border-bottom: 2px solid #ffffff;
+    /* 하단 선 겹침 처리 */
+    font-weight: bold;
+}
+
+/* 진행률 바 색상 (이미지 기반 주황색) */
+.progress-bar {
+    background-color: #ff9f43 !important;
+}
+
+/* 푸터 스타일 */
+.lms-footer {
+    background-color: #212529;
+    color: #ffffff;
+    text-align: center;
+    padding: 40px 0;
+    margin-top: 50px;
+}

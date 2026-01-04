@@ -1,0 +1,102 @@
+/* notice.css */
+
+#notice {
+    font-family: 'Pretendard', sans-serif;
+    background-color: #ffffff;
+    min-height: 400px;
+}
+
+/* 상단 버튼 영역 */
+.notice-header-tools {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+/* 공지사항 테이블 스타일 */
+.table-notice {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-notice thead th {
+    font-size: 14px;
+    font-weight: 700;
+    color: #333;
+    padding: 15px 10px;
+    border-bottom: 1px solid #dbdbdb;
+    text-align: center;
+}
+
+.table-notice tbody td {
+    font-size: 14px;
+    padding: 15px 10px;
+    border-bottom: 1px solid #f1f1f1;
+    color: #444;
+    vertical-align: middle;
+}
+
+/* 게시글 호버 효과 */
+.table-notice tbody tr:hover {
+    background-color: #fcfcfc;
+}
+
+/* 필독 공지사항 강조 */
+.row-important {
+    background-color: #fffafa;
+}
+
+.row-important td {
+    font-weight: 500;
+}
+
+/* 비공개 게시글 */
+.row-hidden {
+    background-color: #f9f9f9;
+    color: #bbb !important;
+}
+
+/* 제목 왼쪽 정렬 및 말줄임 처리 */
+.td-title {
+    text-align: left !important;
+    padding-left: 20px !important;
+}
+
+/* "공지가 없습니다" 스타일 (이미지 반영) */
+.empty-msg {
+    color: #0066cc;
+    font-weight: 500;
+    font-size: 16px;
+    padding: 100px 0;
+}
+
+/* 페이지네이션 커스텀 */
+.pagination {
+    margin-top: 30px;
+}
+
+.page-link {
+    color: #666;
+    border: 1px solid #dee2e6;
+    padding: 6px 12px;
+    font-size: 13px;
+}
+
+.page-item.active .page-link {
+    background-color: #0066cc;
+    border-color: #0066cc;
+    color: #fff;
+}
+
+.page-link:hover {
+    color: #0066cc;
+    background-color: #f8f9fa;
+}
+
+/* 뱃지 스타일 */
+.badge-important {
+    background-color: #e74c3c;
+    font-weight: normal;
+    padding: 4px 8px;
+    border-radius: 3px;
+}

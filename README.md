@@ -5,12 +5,34 @@
 이 저장소는 Spring Boot와 JSP를 기반으로 구축되어, 실제 서비스 수준의 UI/UX 환경에서 모의해킹 및 보안 교육 실습을 수행하는 구조를 목표로 합니다. SQL Injection, Stored XSS, IDOR 등 주요 웹 취약점을 의도적으로 구현하여 공격 및 방어 기법을 학습할 수 있는 체계를 기본으로 제공합니다.
 
 ## 프로젝트 구조
-- `src/main/java/`: Spring Boot 애플리케이션의 핵심 로직 및 엔트리포인트
-- `src/main/java/.../controller/`: 주요 취약점(SQLi, XSS, IDOR)이 의도적으로 구현된 컨트롤러 계층
-- `src/main/resources/`: 데이터베이스 연결 설정(application.properties) 및 서버 구성 파일
-- `src/main/webapp/WEB-INF/views/`: 서버 사이드 렌더링을 위한 JSP 뷰 템플릿 (대시보드, 강의실 등)
-- `src/main/webapp/static/`: UI 디자인을 위한 정적 리소스 (Grid/Flex 기반 CSS, 이미지)
-- `pom.xml`: Maven 프로젝트 빌드 설정 및 라이브러리 의존성 관리
+### **Backend (Java)**
+
+```text
+src/main/java/com/welab.lms/
+├── web/controller/       # 요청 제어 및 권한 검증 (IDOR, Broken Auth)
+├── domain/service/       # 비즈니스 로직 및 취약 시나리오 구현 (XSS, Path Traversal)
+├── persistence/repository/# JDBC 기반 데이터 접근 및 SQL 실행 (SQL Injection)
+├── util/                 # JWT 생성/파싱, 파일 관리 도구
+└── LmsApplication.java   # Spring Boot 메인 엔트리포인트
+
+```
+
+### **Frontend (JSP & Static)**
+
+```text
+src/main/webapp/
+├── static/               # 정적 리소스 (CSS, Images, Upload Folder)
+│   ├── folder/           # [Vulnerable] 파일 업로드 및 웹쉘 실행 경로
+│   └── images/           # UI 구성 이미지
+└── WEB-INF/views/        # 서버 사이드 렌더링 JSP 템플릿
+    ├── admin/            # 관리자 전용 기능 (사용자 관리 등)
+    ├── login/            # 인증 관련 (로그인, 회원가입, 계정 찾기)
+    ├── notice/           # 공지사항 게시판 (Stored XSS 실습 지점)
+    ├── study/            # 스터디 그룹 및 게시판 (File Upload/Download 실습)
+    │   └── tabs/         # 대시보드 내 탭별 세부 페이지 (Roadmap, Schedule 등)
+    ├── user/             # 마이페이지 및 정보 수정 (IDOR, CSRF 실습)
+    └── common/           # 공정 레이아웃 (Navigation, Access Denied)
+```
 
 ## 모듈 상호작용 흐름
 
@@ -22,7 +44,7 @@
 
 ## 핵심 모듈
 - `src/main/java/.../controller/`: 사용자 입력을 처리하는 비즈니스 로직이자, **주요 취약점(SQLi, IDOR, XSS)**이 의도적으로 구현된 핵심 계층
-- `src/main/webapp/WEB-INF/views/`: JSTL을 사용하여 데이터를 렌더링하는 뷰 템플릿으로, **XSS 공격 구문이 실행**되는 지점
+- `src/main/webapp/WEB-INF/views/`: JSTL을 사용하여 데이터를 렌더링하는 뷰 템플릿으로, XSS 공격 구문이 실행되는 지점
 - `src/main/webapp/static/css/`: `Flexbox`와 `Grid` 시스템을 활용하여 LMS의 복잡한 레이아웃(로드맵, 대시보드)을 구현한 스타일시트
 - `src/main/resources/`: 데이터베이스 연결 설정(`application.properties`) 및 정적 리소스 매핑 설정
 

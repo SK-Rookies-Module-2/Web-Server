@@ -1,0 +1,84 @@
+/* assignment.css */
+
+#assignment {
+    font-family: 'Pretendard', sans-serif;
+    background-color: #ffffff;
+    min-height: 400px;
+}
+
+/* 상단 버튼 영역 */
+.assignment-header-tools {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+/* 내 과제 점수 보기 버튼 */
+.btn-assignment-score {
+    background-color: #1a73e8;
+    /* 이미지의 선명한 파란색 */
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.btn-assignment-score:hover {
+    background-color: #1557b0;
+}
+
+/* 과제 테이블 스타일 */
+.table-assignment {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-assignment thead th {
+    font-size: 14px;
+    font-weight: 700;
+    color: #333;
+    padding: 15px 10px;
+    border-bottom: 1px solid #dbdbdb;
+    text-align: center;
+}
+
+.table-assignment tbody td {
+    font-size: 14px;
+    padding: 15px 10px;
+    border-bottom: 1px solid #f1f1f1;
+    color: #444;
+    vertical-align: middle;
+}
+
+/* 과제가 없을 때 메시지 (공지사항 탭과 통일성 유지) */
+.empty-msg {
+    color: #0066cc;
+    font-weight: 500;
+    font-size: 16px;
+    padding: 120px 0;
+}
+
+/* 하단 툴바 (페이지네이션 & 보기 옵션) */
+.assignment-footer-tools {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-top: 30px;
+}
+
+.view-option {
+    position: absolute;
+    right: 0;
+    font-size: 14px;
+    color: #666;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 2px;
+    cursor: pointer;
+}

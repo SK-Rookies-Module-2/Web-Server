@@ -5,42 +5,96 @@
             <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/evaluation.css">
 
             <div class="row g-4 mb-5">
-                <c:forEach var="eval" items="${evalList}">
-                    <div class="col-md-6">
-                        <div class="eval-card shadow-sm">
-                            <div class="eval-body">
-                                <c:choose>
-                                    <c:when test="${eval.status == '평가 완료'}">
-                                        <div class="eval-info-text text-muted">${eval.subject} 60문항 - 40분</div>
-                                        <div class="eval-title">${eval.eval_name}가 <br>종료되었습니다.</div>
-                                        <span class="eval-date-badge">평가일 ${eval.exam_date}</span>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <div class="eval-info-text text-primary-custom">${eval.subject} 90문항 - 40분</div>
-                                        <div class="eval-title text-primary-custom">${eval.eval_name}는 <br>준비중입니다.</div>
-                                        <span class="eval-date-badge bg-primary-custom">평가일 ${eval.exam_date}</span>
-                                    </c:otherwise>
-                                </c:choose>
-                            </div>
-                            <div class="eval-footer text-end">
-                                <div
-                                    class="eval-icons mb-3 ${eval.status == '평가 완료' ? 'text-muted' : 'text-primary-custom'}">
-                                    <i class="fas fa-microphone"></i>
-                                    <i class="far fa-comment-dots ms-2"></i>
-                                </div>
-                                <button class="btn-eval-status ${eval.status != '평가 완료' ? 'active' : ''}">
-                                    ${eval.status == '평가 완료' ? '종료' : '준비중'}
-                                </button>
-                            </div>
+                <div class="col-md-6">
+                    <div class="eval-card shadow-sm status-end">
+                        <div class="eval-body">
+                            <div class="eval-info-text text-muted">생성형 AI 활용한 보안 프로그래밍 기초 60문항 - 40분</div>
+                            <div class="eval-title">1차 사전평가가 <br>종료되었습니다.</div>
+                            <span class="eval-date-badge">평가일 2025-10-27</span>
+                        </div>
+                        <div class="eval-footer text-end">
+                            <div class="eval-icons mb-4 text-muted"><i class="fas fa-microphone"></i><i
+                                    class="far fa-comment-dots ms-2"></i></div>
+                            <button class="btn-eval-status">종료</button>
                         </div>
                     </div>
-                </c:forEach>
+                </div>
+                <div class="col-md-6">
+                    <div class="eval-card shadow-sm status-end">
+                        <div class="eval-body">
+                            <div class="eval-info-text text-muted">생성형 AI 활용한 보안 프로그래밍 기초 60문항 - 30분</div>
+                            <div class="eval-title">1차 사후평가가 <br>종료되었습니다.</div>
+                            <span class="eval-date-badge">평가일 2025-11-18</span>
+                        </div>
+                        <div class="eval-footer text-end">
+                            <div class="eval-icons mb-4 text-muted"><i class="fas fa-microphone"></i><i
+                                    class="far fa-comment-dots ms-2"></i></div>
+                            <button class="btn-eval-status">종료</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="eval-card shadow-sm status-end">
+                        <div class="eval-body">
+                            <div class="eval-info-text text-muted">생성형 AI 활용한 보안 응용 95문항 - 30분</div>
+                            <div class="eval-title">2차 사전평가가 <br>종료되었습니다.</div>
+                            <span class="eval-date-badge">평가일 2025-11-27</span>
+                        </div>
+                        <div class="eval-footer text-end">
+                            <div class="eval-icons mb-4 text-muted"><i class="fas fa-microphone"></i><i
+                                    class="far fa-comment-dots ms-2"></i></div>
+                            <button class="btn-eval-status">종료</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="eval-card shadow-sm status-end">
+                        <div class="eval-body">
+                            <div class="eval-info-text text-muted">생성형 AI 활용한 보안 응용 95문항 - 40분</div>
+                            <div class="eval-title">2차 사후평가가 <br>종료되었습니다.</div>
+                            <span class="eval-date-badge">평가일 2025-12-29</span>
+                        </div>
+                        <div class="eval-footer text-end">
+                            <div class="eval-icons mb-4 text-muted"><i class="fas fa-microphone"></i><i
+                                    class="far fa-comment-dots ms-2"></i></div>
+                            <button class="btn-eval-status">종료</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="eval-card shadow-sm status-ready">
+                        <div class="eval-body">
+                            <div class="eval-info-text text-primary-custom">생성형 AI 활용한 보안 심화 60문항 - 40분</div>
+                            <div class="eval-title text-primary-custom">3차 사전평가는 <br>준비중입니다.</div>
+                            <span class="eval-date-badge bg-primary-custom">평가일 2026-01-06</span>
+                        </div>
+                        <div class="eval-footer text-end">
+                            <div class="eval-icons mb-4 text-primary-custom"><i class="fas fa-microphone"></i><i
+                                    class="far fa-comment-dots ms-2"></i></div>
+                            <button class="btn-eval-status active">준비중</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="eval-card shadow-sm status-ready">
+                        <div class="eval-body">
+                            <div class="eval-info-text text-primary-custom">생성형 AI 활용한 보안 심화 40문항 - 40분</div>
+                            <div class="eval-title text-primary-custom">3차 사후평가는 <br>준비중입니다.</div>
+                            <span class="eval-date-badge bg-primary-custom">평가일 2026-02-10</span>
+                        </div>
+                        <div class="eval-footer text-end">
+                            <div class="eval-icons mb-4 text-primary-custom"><i class="fas fa-microphone"></i><i
+                                    class="far fa-comment-dots ms-2"></i></div>
+                            <button class="btn-eval-status active">준비중</button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="text-center mb-5">
-                <button class="btn btn-primary px-5 py-3 fw-bold shadow-sm report-btn">
-                    개인 과정평가 리포트
-                </button>
+                <button class="btn report-btn px-5 py-3 fw-bold shadow-sm text-white">개인 과정평가 리포트</button>
             </div>
 
             <div class="table-responsive">
@@ -60,33 +114,78 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach var="eval" items="${evalList}">
-                            <tr>
-                                <td>
-                                    <span class="badge ${eval.status == '평가 완료' ? 'badge-blue' : 'badge-gray'}">
-                                        ${eval.status == '평가 완료' ? '평가 완료' : '준비중'}
-                                    </span>
-                                </td>
-                                <td class="text-start text-truncate" style="max-width: 200px;">
-                                    ${eval.subject}
-                                </td>
-                                <td class="text-muted">${eval.eval_name}</td>
-                                <td class="text-muted">${eval.exam_date}</td>
-                                <td class="text-muted">${eval.avg_score}</td>
-                                <td class="text-muted">${eval.my_score}</td>
-                                <td><i class="fas fa-microphone ${eval.has_feedback ? 'icon-gray' : 'icon-light'}"></i>
-                                </td>
-                                <td><i class="far fa-file-alt ${eval.has_file ? 'icon-gray' : 'icon-light'}"></i></td>
-                                <td><i class="far fa-comment-dots ${eval.has_meeting ? 'icon-gray' : 'icon-light'}"></i>
-                                </td>
-                                <td>
-                                    <button
-                                        class="btn-detail ${eval.status == '평가 완료' ? 'btn-detail-blue' : 'btn-detail-gray'}">
-                                        자세히
-                                    </button>
-                                </td>
-                            </tr>
-                        </c:forEach>
+                        <tr>
+                            <td><span class="badge rounded-pill badge-blue">평가 완료</span></td>
+                            <td class="text-start">생성형 AI 활용한 보안 프로그래밍 기초</td>
+                            <td class="text-muted">1차 사전평가</td>
+                            <td class="text-muted">2025-10-27</td>
+                            <td class="fw-bold">63</td>
+                            <td class="fw-bold text-primary">68</td>
+                            <td><i class="fas fa-microphone icon-gray"></i></td>
+                            <td>-</td>
+                            <td><i class="far fa-comment-dots icon-gray"></i></td>
+                            <td><button class="btn-detail btn-detail-blue">자세히</button></td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge rounded-pill badge-blue">평가 완료</span></td>
+                            <td class="text-start">생성형 AI 활용한 보안 프로그래밍 기초</td>
+                            <td class="text-muted">1차 사후평가</td>
+                            <td class="text-muted">2025-11-18</td>
+                            <td class="fw-bold">78</td>
+                            <td class="fw-bold text-primary">78</td>
+                            <td><i class="fas fa-microphone icon-gray"></i></td>
+                            <td><i class="far fa-file-alt icon-gray"></i></td>
+                            <td><i class="far fa-comment-dots icon-gray"></i></td>
+                            <td><button class="btn-detail btn-detail-blue">자세히</button></td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge rounded-pill badge-blue">평가 완료</span></td>
+                            <td class="text-start">생성형 AI 활용한 보안 응용</td>
+                            <td class="text-muted">2차 사전평가</td>
+                            <td class="text-muted">2025-11-27</td>
+                            <td class="fw-bold">65</td>
+                            <td class="fw-bold text-primary">72</td>
+                            <td><i class="fas fa-microphone icon-gray"></i></td>
+                            <td>-</td>
+                            <td><i class="far fa-comment-dots icon-gray"></i></td>
+                            <td><button class="btn-detail btn-detail-blue">자세히</button></td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge rounded-pill badge-blue">평가 완료</span></td>
+                            <td class="text-start">생성형 AI 활용한 보안 응용</td>
+                            <td class="text-muted">2차 사후평가</td>
+                            <td class="text-muted">2025-12-29</td>
+                            <td class="fw-bold">82</td>
+                            <td class="fw-bold text-primary">80</td>
+                            <td><i class="fas fa-microphone icon-gray"></i></td>
+                            <td><i class="far fa-file-alt icon-gray"></i></td>
+                            <td><i class="far fa-comment-dots icon-gray"></i></td>
+                            <td><button class="btn-detail btn-detail-blue">자세히</button></td>
+                        </tr>
+                        <tr class="opacity-50">
+                            <td><span class="badge rounded-pill badge-gray">준비중</span></td>
+                            <td class="text-start">생성형 AI 활용한 보안 심화</td>
+                            <td class="text-muted">3차 사전평가</td>
+                            <td class="text-muted">2026-01-06</td>
+                            <td class="text-muted">-</td>
+                            <td class="text-muted">-</td>
+                            <td><i class="fas fa-microphone icon-light"></i></td>
+                            <td>-</td>
+                            <td><i class="far fa-comment-dots icon-light"></i></td>
+                            <td><button class="btn-detail btn-detail-gray">자세히</button></td>
+                        </tr>
+                        <tr class="opacity-50">
+                            <td><span class="badge rounded-pill badge-gray">준비중</span></td>
+                            <td class="text-start">생성형 AI 활용한 보안 심화</td>
+                            <td class="text-muted">3차 사후평가</td>
+                            <td class="text-muted">2026-02-10</td>
+                            <td class="text-muted">-</td>
+                            <td class="text-muted">-</td>
+                            <td><i class="fas fa-microphone icon-light"></i></td>
+                            <td>-</td>
+                            <td><i class="far fa-comment-dots icon-light"></i></td>
+                            <td><button class="btn-detail btn-detail-gray">자세히</button></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

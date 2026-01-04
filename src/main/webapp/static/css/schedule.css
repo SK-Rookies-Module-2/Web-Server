@@ -1,0 +1,83 @@
+/* schedule.css */
+
+#schedule {
+    font-family: 'Pretendard', sans-serif;
+    background-color: #ffffff;
+    padding: 10px 0;
+}
+
+.table-welab {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    border-top: 2px solid #dee2e6;
+}
+
+.table-welab thead th {
+    background-color: #ffffff;
+    color: #333;
+    font-weight: 600;
+    padding: 15px 10px;
+    border-bottom: 1px solid #dee2e6;
+    text-align: left;
+}
+
+.table-welab tbody td {
+    padding: 15px 10px;
+    border-bottom: 1px solid #f1f1f1;
+    color: #444;
+    vertical-align: middle;
+}
+
+/* 상세보기 버튼 공통 */
+.btn-detail {
+    border-radius: 20px;
+    border: none;
+    padding: 4px 15px;
+    font-size: 11px;
+    font-weight: 500;
+    color: #ffffff;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.btn-detail:hover {
+    opacity: 0.8;
+}
+
+/* 기본 상세보기 (Blue) */
+.btn-blue {
+    background-color: #004794;
+}
+
+/* 특정 강조 버튼 (Orange) */
+.btn-orange {
+    background-color: #fb8500;
+}
+
+/* 교과목명 강조 */
+.subject-title {
+    font-weight: 500;
+    color: #333;
+}
+
+/* 휴강 정보 텍스트 */
+.holiday-info {
+    line-height: 1.6;
+    color: #666;
+    font-size: 13px;
+}
+
+/* 테이블 열 정렬 보정 */
+.table-welab th:nth-child(3),
+.table-welab td:nth-child(3) {
+    text-align: center;
+}
+
+/* 훈련시간 중앙 */
+.table-welab th:last-child,
+.table-welab td:last-child {
+    text-align: right;
+}
+
+/* 상세 버튼 우측 */

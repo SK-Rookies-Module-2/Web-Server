@@ -1,53 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <!DOCTYPE html>
-        <html>
+        <html lang="ko">
 
         <head>
+            <meta charset="UTF-8">
             <title>강의실 | We Lab Space</title>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-            <link href="/static/css/welab.css" rel="stylesheet">
-            <link href="/static/css/roadmap.css" rel="stylesheet">
-            <style>
-                .search-box-group {
-                    display: flex;
-                    gap: 5px;
-                    align-items: center;
-                }
 
-                .form-select-sm {
-                    width: auto;
-                    display: inline-block;
-                    border-color: #ddd;
-                }
-
-                .form-control-sm {
-                    display: inline-block;
-                    width: 200px;
-                    border-color: #ddd;
-                }
-
-                .btn-blue-fill {
-                    background-color: #0066cc;
-                    color: white;
-                    border: none;
-                    font-weight: bold;
-                    font-size: 0.9rem;
-                    padding: 6px 15px;
-                    border-radius: 4px;
-                }
-
-                .btn-blue-fill:hover {
-                    background-color: #0056b3;
-                    color: white;
-                }
-
-                /* 탭 버튼 스타일 재정의 (페이지 이동 방식이므로) */
-                .lecture-tabs .nav-link {
-                    cursor: pointer;
-                }
-            </style>
+            <link href="/static/css/lecture.css" rel="stylesheet">
         </head>
 
         <body>
@@ -56,30 +18,33 @@
             <div class="course-banner">
                 <div class="container-custom">
                     <div class="row align-items-center">
-                        <div class="col-md-3">
-                            <img src="/static/images/mainImage.webp" class="rounded img-fluid"
-                                style="width:100%; height:160px; object-fit:cover; border:1px solid #eee;">
+                        <div class="col-md-2">
+                            <img src="/static/images/mainImage.webp" class="rounded shadow-sm"
+                                style="width:100%; height:130px; object-fit:cover;">
                         </div>
-                        <div class="col-md-9 ps-4">
+                        <div class="col-md-6 ps-4">
                             <small class="text-primary fw-bold">루키즈 AI 보안 28기</small>
-                            <h3 class="fw-bold mt-2 mb-3">생성형 AI 활용 사이버보안 전문인력 양성과정 28기</h3>
-                            <div class="d-flex justify-content-between align-items-end">
-                                <div style="width: 70%;">
-                                    <div class="mb-3"><span class="course-tag"># 생성형 AI</span><span class="course-tag">#
-                                            융합보안</span></div>
-                                    <div class="progress" style="height: 8px; background-color: #e9ecef;">
-                                        <div class="progress-bar bg-warning" style="width: 39%"></div>
-                                    </div>
-                                    <div class="d-flex justify-content-between mt-2"><small
-                                            class="text-primary fw-bold">진행률 39%</small></div>
-                                </div>
-                                <div class="text-end">
-                                    <div class="mb-2"><button class="btn btn-outline-primary me-2">강의실
-                                            입장</button><button class="btn btn-orange">강의 자료실</button></div>
-                                    <small class="text-muted"><i class="far fa-clock text-warning"></i> 2025-10-23 ~
-                                        2026-04-17</small>
-                                </div>
+                            <h4 class="fw-bold mt-1">${courseTitle}</h4>
+                            <div class="mt-2 mb-3">
+                                <span class="course-tag"># 생성형 AI</span>
+                                <span class="course-tag"># 융합보안</span>
                             </div>
+                            <div class="progress"
+                                style="height: 10px; border-radius: 5px; background-color: #eeeeee; width: 80%;">
+                                <div class="progress-bar" style="width: ${progress}%"></div>
+                            </div>
+                            <div class="d-flex mt-2">
+                                <small class="text-primary fw-bold">진행률 ${progress}%</small>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <div class="mb-2">
+                                <button class="btn btn-outline-primary px-4 me-2 fw-bold">강의실 입장</button>
+                                <button class="btn btn-orange px-4 fw-bold">강의 자료실</button>
+                            </div>
+                            <small class="text-muted">
+                                <i class="far fa-clock text-warning"></i> 2025-10-23 ~ 2026-04-17
+                            </small>
                         </div>
                     </div>
                 </div>
@@ -116,12 +81,12 @@
                 </div>
             </div>
 
-            <div class="container-custom mt-4 mb-5">
+            <div class="container-custom mt-4 mb-5" style="min-height: 500px;">
                 <jsp:include page="tabs/${currentTab}.jsp" />
             </div>
 
-            <div class="text-center py-4 bg-dark text-white mt-5">
-                <h4>LMS WE LAB SPACE</h4>
+            <div class="lms-footer">
+                <h5 class="fw-bold">LMS WE LAB SPACE</h5>
                 <small class="text-white-50">COPYRIGHT © 2025 WELABSPACE. ALL RIGHTS RESERVED.</small>
             </div>
 

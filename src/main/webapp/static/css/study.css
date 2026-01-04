@@ -1,0 +1,143 @@
+/* study.css */
+
+#study {
+    font-family: 'Pretendard', sans-serif;
+    background-color: #ffffff;
+}
+
+/* 상단 검색 및 도구 바 */
+.study-header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.search-box-group {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 2px;
+    background: #fff;
+}
+
+.search-category {
+    border: none;
+    border-right: 1px solid #eee;
+    padding: 8px 15px;
+    font-size: 14px;
+    color: #333;
+    outline: none;
+    background: transparent;
+}
+
+.search-input {
+    border: none;
+    padding: 8px 15px;
+    width: 250px;
+    font-size: 14px;
+    outline: none;
+}
+
+.btn-search {
+    background: transparent;
+    border: none;
+    padding: 0 15px;
+    color: #999;
+}
+
+/* 우측 버튼 세트 */
+.tools-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.check-my-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid #1a73e8;
+    color: #1a73e8;
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    background: #fff;
+}
+
+.btn-create-study {
+    background-color: #1a73e8;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* 상태 배지 스타일 (이미지 색상 반영) */
+.badge-status {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.bg-recruiting {
+    background-color: #f39c12;
+}
+
+/* 모집중: 주황색 */
+.bg-finished {
+    background-color: #e84393;
+}
+
+/* 모집완료: 분홍색 */
+
+/* 테이블 스타일 */
+.table-study {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-study thead th {
+    font-size: 14px;
+    font-weight: 700;
+    color: #333;
+    padding: 15px 10px;
+    border-bottom: 1px solid #dbdbdb;
+    text-align: center;
+}
+
+.table-study tbody td {
+    font-size: 14px;
+    padding: 15px 10px;
+    border-bottom: 1px solid #f1f1f1;
+    color: #444;
+    vertical-align: middle;
+}
+
+/* 하단 페이지네이션 및 옵션 영역 */
+.study-footer-tools {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-top: 30px;
+}
+
+.view-option-study {
+    position: absolute;
+    right: 0;
+    font-size: 14px;
+    color: #666;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 2px;
+    cursor: pointer;
+}
