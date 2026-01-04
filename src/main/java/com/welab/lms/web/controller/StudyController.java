@@ -89,7 +89,7 @@ public class StudyController {
             HttpSession session, HttpServletRequest request) {
 
         // [로직] 서버 내 물리적 업로드 경로 설정
-        String uploadPath = request.getServletContext().getRealPath("/static/folder");
+        String uploadPath = request.getServletContext().getRealPath("/folder");
         // [취약점] 파일 확장자 및 실행 권한에 대한 검증 없이 서버에 저장
         String fileName = studyService.uploadFileVulnerable(file, uploadPath);
         String writer = (String) session.getAttribute("user_name");
