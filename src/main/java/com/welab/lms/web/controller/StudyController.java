@@ -145,4 +145,10 @@ public class StudyController {
         studyService.deletePost(no, uploadPath);
         return "redirect:/study/view?no=" + studyNo;
     }
+
+    @GetMapping("/external/preview")
+    public void getExternalPreview(@RequestParam String url, HttpServletResponse response) {
+        // [로직] 사용자가 보낸 외부 URL을 서비스 계층에 전달하여 데이터를 가져오게 함
+        studyService.fetchRemoteResource(url, response);
+    }
 }

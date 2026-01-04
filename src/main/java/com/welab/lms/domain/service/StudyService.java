@@ -5,8 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.time.LocalDate;
 import java.util.*;
+
+import javax.servlet.http.HttpServletResponse;
 
 @Service
 public class StudyService {
@@ -101,5 +107,29 @@ public class StudyService {
     // [파일] 다운로드를 위한 파일 객체 생성 [취약점: 경로 조작(Path Traversal) - ../ 등을 이용한 상위 경로 접근 가능]
     public File getDownloadFileVulnerable(String fileName, String uploadPath) {
         return new File(uploadPath + File.separator + fileName);
+    }
+
+    public void fetchRemoteResource(String urlString, HttpServletResponse response) {
+        try {
+            URL url = new URL(urlString);
+            // [수정] HttpURLConnection으로 형변환하지 않고 일반 Connection으로 받음
+            java.net.URLConnection connection = url.openConnection();
+            connection.setConnectTimeout(3000);
+            connection.setReadTimeout(3000);
+
+            // 데이터를 읽어서 사용자에게 전달
+            try (InputStream is = connection.getInputStream();
+                    OutputStream os = response.getOutputStream()) {
+                byte[] buffer = new byte[1024];
+                int len;
+                while ((len = is.read(buffer)) != -1) {
+                    os.write(buffer, 0, len);
+                }
+            }
+        } catch (Exception e) {
+            // [중요] 에러가 발생해도 사용자에게 내용을 보여주도록 설정 가능 (여기서는 로그만 출력)
+            System.err.println("SSRF 요청 중 에러 발생: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }

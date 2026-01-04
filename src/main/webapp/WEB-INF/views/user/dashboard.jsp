@@ -233,63 +233,96 @@
                         </div>
 
                         <%-- 과정 카드 리스트 (2개) --%>
-                            <div class="row g-4">
-                                <%-- 카드 1 --%>
-                                    <div class="col-md-4">
-                                        <a href="/lecture_view" class="text-decoration-none">
-                                            <div class="card card-custom">
-                                                <img src="/static/images/mainImage.webp" class="card-img-top"
-                                                    alt="AI Security">
-                                                <div class="card-body">
-                                                    <div class="card-category">루키즈 AI 보안 28기</div>
-                                                    <div class="card-title">생성형 AI 활용 사이버보안 전문인력 양성과정 28기</div>
-                                                    <div class="mt-2">
-                                                        <span class="tag-badge"># 생성형 AI</span>
-                                                        <span class="tag-badge"># 융합보안</span>
-                                                    </div>
-                                                    <div class="progress-container">
-                                                        <div class="progress">
-                                                            <div class="progress-bar" style="width: 41%"></div>
-                                                        </div>
-                                                        <div class="d-flex justify-content-between mt-2">
-                                                            <span class="progress-text">진행률 41%</span>
-                                                            <span class="date-text"><i
-                                                                    class="far fa-clock me-1 text-warning"></i>2025-10-23
-                                                                ~ 2026-04-17</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
+                            <%-- 과정 카드 리스트 (3개 가로 정렬) --%>
+                                <div class="row g-4">
 
-                                    <%-- 카드 2 --%>
+                                    <%-- 카드 1: 루키즈 AI 보안 --%>
                                         <div class="col-md-4">
-                                            <div class="card card-custom">
-                                                <img src="/static/images/hackingTraining.webp" class="card-img-top"
-                                                    alt="EQST">
-                                                <div class="card-body">
-                                                    <div class="card-category">EQST (모의해킹 실습장)</div>
-                                                    <div class="card-title">Web Hacking Training Center (Expert
-                                                        Qualified Security Team)</div>
-                                                    <div class="mt-2">
-                                                        <span class="tag-badge">#
-                                                            ExpertsQualifiedSecurityTeam</span>
-                                                        <span class="tag-badge"># 모의해킹</span>
-                                                    </div>
-                                                    <div class="progress-container">
-                                                        <div class="progress">
-                                                            <div class="progress-bar" style="width: 0%"></div>
+                                            <a href="/lecture_view" class="text-decoration-none">
+                                                <div class="card card-custom">
+                                                    <img src="/static/images/mainImage.webp" class="card-img-top"
+                                                        alt="AI Security">
+                                                    <div class="card-body">
+                                                        <div class="card-category">루키즈 AI 보안 28기</div>
+                                                        <div class="card-title">생성형 AI 활용 사이버보안 전문인력 양성과정 28기</div>
+                                                        <div class="mt-2">
+                                                            <span class="tag-badge"># 생성형 AI</span>
+                                                            <span class="tag-badge"># 융합보안</span>
                                                         </div>
-                                                        <div class="d-flex justify-content-between mt-2">
-                                                            <span class="progress-text" style="color:#999;">진행률
-                                                                0%</span>
+                                                        <div class="progress-container">
+                                                            <div class="progress">
+                                                                <div class="progress-bar" style="width: 41%"></div>
+                                                            </div>
+                                                            <div class="d-flex justify-content-between mt-2">
+                                                                <span class="progress-text">진행률 41%</span>
+                                                                <span class="date-text"><i
+                                                                        class="far fa-clock me-1 text-warning"></i>2025-10-23
+                                                                    ~ 2026-04-17</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+
+                                        <%-- 카드 2: EQST 모의해킹 --%>
+                                            <div class="col-md-4">
+                                                <div class="card card-custom">
+                                                    <img src="/static/images/hackingTraining.webp" class="card-img-top"
+                                                        alt="EQST">
+                                                    <div class="card-body">
+                                                        <div class="card-category">EQST (모의해킹 실습장)</div>
+                                                        <div class="card-title">Web Hacking Training Center (Expert
+                                                            Qualified Security Team)</div>
+                                                        <div class="mt-2">
+                                                            <span class="tag-badge"># EQST</span>
+                                                            <span class="tag-badge"># 모의해킹</span>
+                                                        </div>
+                                                        <div class="progress-container">
+                                                            <div class="progress">
+                                                                <div class="progress-bar" style="width: 0%"></div>
+                                                            </div>
+                                                            <div class="d-flex justify-content-between mt-2">
+                                                                <span class="progress-text" style="color:#999;">진행률
+                                                                    0%</span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                            </div>
+
+                                            <%-- 카드 3: 취업면접의 기초 (SSRF 실습용 최종 완성본) --%>
+                                                <div class="col-md-4">
+                                                    <div class="card card-custom">
+                                                        <img src="/study/external/preview?url=https://i.postimg.cc/PPCVR1KR/chi.webp"
+                                                            class="card-img-top" alt="취업면접의 기초">
+
+                                                        <div class="card-body">
+                                                            <div class="card-title mb-3"
+                                                                style="font-size: 18px; font-weight: 800;">취업면접의 기초1
+                                                            </div>
+
+                                                            <div class="mb-3">
+                                                                <span class="tag-badge"># 취업면접</span>
+                                                                <span class="tag-badge"># 합격 노하우</span>
+                                                                <span class="tag-badge"># 면접의완성</span>
+                                                            </div>
+
+                                                            <div class="progress-container">
+                                                                <div class="progress">
+                                                                    <div class="progress-bar" style="width: 0%"></div>
+                                                                </div>
+                                                                <div class="mt-2">
+                                                                    <span class="progress-text"
+                                                                        style="color: #004794; font-size: 14px; font-weight: 700;">진행률
+                                                                        0%</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                </div>
+
             </div>
 
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
