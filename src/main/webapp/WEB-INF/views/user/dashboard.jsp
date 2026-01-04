@@ -291,36 +291,30 @@
                                                 </div>
                                             </div>
 
-                                            <%-- 카드 3: 취업면접의 기초 (SSRF 실습용 최종 완성본) --%>
-                                                <div class="col-md-4">
-                                                    <div class="card card-custom">
-                                                        <img src="/study/external/preview?url=https://i.postimg.cc/PPCVR1KR/chi.webp"
-                                                            class="card-img-top" alt="취업면접의 기초">
-
-                                                        <div class="card-body">
-                                                            <div class="card-title mb-3"
-                                                                style="font-size: 18px; font-weight: 800;">취업면접의 기초1
+                                            <div class="col-md-4">
+                                                <div class="card card-custom">
+                                                    <img src="/static/images/chi.webp" class="card-img-top"
+                                                        alt="EQST">
+                                                    <div class="card-body">
+                                                        <div class="card-category">취업면접의 기초</div>
+                                                        <div class="card-title">취업면접의 기초1</div>
+                                                        <div class="mt-2">
+                                                            <span class="tag-badge"># 취업면접</span>
+                                                            <span class="tag-badge"># 합격 노하우</span>
+                                                            <span class="tag-badge"># 면접의완성</span>
+                                                        </div>
+                                                        <div class="progress-container">
+                                                            <div class="progress">
+                                                                <div class="progress-bar" style="width: 0%"></div>
                                                             </div>
-
-                                                            <div class="mb-3">
-                                                                <span class="tag-badge"># 취업면접</span>
-                                                                <span class="tag-badge"># 합격 노하우</span>
-                                                                <span class="tag-badge"># 면접의완성</span>
-                                                            </div>
-
-                                                            <div class="progress-container">
-                                                                <div class="progress">
-                                                                    <div class="progress-bar" style="width: 0%"></div>
-                                                                </div>
-                                                                <div class="mt-2">
-                                                                    <span class="progress-text"
-                                                                        style="color: #004794; font-size: 14px; font-weight: 700;">진행률
-                                                                        0%</span>
-                                                                </div>
+                                                            <div class="d-flex justify-content-between mt-2">
+                                                                <span class="progress-text" style="color:#999;">진행률
+                                                                    0%</span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
                                 </div>
 
             </div>
